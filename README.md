@@ -1,4 +1,4 @@
-This prograsm requires the following packages to be installed:
+This program requires the following packages to be installed:
 
 <b>For Windows:</b><br>
 <code>npm install @react-navigation/native @react-navigation/bottom-tabs react-native-vector-icons</code>
