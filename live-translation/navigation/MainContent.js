@@ -8,6 +8,7 @@ import HomeScreen from './screens/HomeScreen';
 import DetailsScreen from './screens/Typing';
 import SettingsScreen from './screens/Audio';
 import HistoryScreen from './screens/History';
+import { SafeAreaView } from 'react-native';
 
 //setting the screen names 
 const homeName = "Home";
@@ -20,6 +21,7 @@ const Tab = createBottomTabNavigator();
 
 function MainContent() {
     return (
+      
         <NavigationContainer>
           <Tab.Navigator
             initialRouteName={homeName}

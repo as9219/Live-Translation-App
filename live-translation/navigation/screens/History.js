@@ -1,28 +1,13 @@
 import * as React from 'react';
 import { View, Text } from 'react-native';
-import { StyleSheet } from 'react-native';
+import { mainStyle } from '../styles/MainStyle.js'; 
 
-export default function SettingsScreen({ navigation }) {
+export default function HistoryScreen({ navigation }) {
     return (
-        <View style={defaultStyle.view}>
+        <View style={mainStyle.view}>
             <Text
                 onPress={() => navigation.navigate('Home')}
-                style={defaultStyle.text}>History Screen</Text>
+                style={mainStyle.text}>History Screen</Text>
         </View>
     );
 }
-
-const defaultStyle = StyleSheet.create({
-    view: {
-        flex: 1, 
-        alignItems: 'center', 
-        justifyContent: 'center', 
-        backgroundColor: 'royalblue'
-    },
-
-    text: {
-        fontSize: 26, 
-        fontWeight: 'bold', 
-        color: 'ghostwhite',
-    },
-});
