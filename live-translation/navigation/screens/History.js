@@ -2,12 +2,12 @@ import * as React from 'react';
 import { View, Text } from 'react-native';
 import { StyleSheet } from 'react-native';
 
-export default function HomeScreen({ navigation }) {
+export default function SettingsScreen({ navigation }) {
     return (
         <View style={defaultStyle.view}>
             <Text
-                onPress={() => alert('This is the "Home" screen.')}
-                style={defaultStyle.text}>Home Screen</Text>
+                onPress={() => navigation.navigate('Home')}
+                style={defaultStyle.text}>History Screen</Text>
         </View>
     );
 }
@@ -19,10 +19,10 @@ const defaultStyle = StyleSheet.create({
         justifyContent: 'center', 
         backgroundColor: 'royalblue'
     },
-  
+
     text: {
         fontSize: 26, 
         fontWeight: 'bold', 
         color: 'ghostwhite',
     },
-  });
+});
