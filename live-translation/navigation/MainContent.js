@@ -8,30 +8,27 @@ import HomeScreen from './screens/HomeScreen';
 import DetailsScreen from './screens/Typing';
 import SettingsScreen from './screens/Audio';
 import HistoryScreen from './screens/History';
-import { SafeAreaView } from 'react-native';
 
 //setting the screen names 
 const homeName = "Home";
-const detailsName = "Typing";
-const settingsName = "Audio";
+const detailsName = "Details";
+const settingsName = "Settings";
 const historyName = "History";
 
 const Tab = createBottomTabNavigator();
 
-
 function MainContent() {
     return (
-      
         <NavigationContainer>
           <Tab.Navigator
             initialRouteName={homeName}
             screenOptions={{
-                tabBarActiveTintColor: "ghostwhite",
+                tabBarActiveTintColor: 'ghostwhite',
                 tabBarInactiveTintColor: 'lightgray',
-                labelStyle: { paddingBottom: 10, fontSize: 10},
+                labelStyle: { paddingBottom: 5, fontSize: 10},
                 tabBarStyle: {
                     padding: 10, 
-                    height: 80, 
+                    height: 90, 
                     backgroundColor: 'navy',
                 },
             }}>
@@ -40,36 +37,44 @@ function MainContent() {
               name={homeName} 
               component={HomeScreen}
               options={{
+                headerShown: false,
                 tabBarIcon: ({ focused, color, size }) => (
                   <Ionicons name={focused ? 'home' : 'home-outline'} size={size} color={color} />
-                )
+                ),
+                tabBarLabel: homeName
               }}/>
             
             <Tab.Screen 
               name={detailsName} 
               component={DetailsScreen}
               options={{
+                headerShown: false,
                 tabBarIcon: ({ focused, color, size }) => (
                   <Ionicons name={focused ? 'chatbox-ellipses' : 'chatbox-ellipses-outline'} size={size} color={color} />
-                )
+                ),
+                tabBarLabel: detailsName
               }}/>
             
             <Tab.Screen 
               name={settingsName} 
               component={SettingsScreen}
               options={{
+                headerShown: false,
                 tabBarIcon: ({ focused, color, size }) => (
                   <Ionicons name={focused ? 'volume-high' : 'volume-high-outline'} size={size} color={color} />
-                )
+                ),
+                tabBarLabel: settingsName
               }}/>
             
             <Tab.Screen 
               name={historyName} 
               component={HistoryScreen}
               options={{
+                headerShown: false,
                 tabBarIcon: ({ focused, color, size }) => (
                   <Ionicons name={focused ? 'time' : 'time-outline'} size={size} color={color} />
-                )
+                ),
+                tabBarLabel: historyName
               }}/>
     
           </Tab.Navigator>
