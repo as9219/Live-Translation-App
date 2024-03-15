@@ -29,7 +29,8 @@ function MainContent() {
                 tabBarStyle: {
                     padding: 10, 
                     height: 90, 
-                    backgroundColor: 'navy',
+                    backgroundColor: '#122053',
+                    borderTopWidth: 0
                 },
             }}>
     
