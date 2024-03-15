@@ -5,7 +5,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 // importing the screens
 import HomeScreen from './screens/HomeScreen';
-import TypingScreen from './screens/Test';
+import TypingScreen from './screens/TypingV2';
 import TranslateScreen from './screens/TranslateScreen';
 import HistoryScreen from './screens/History';
 
@@ -23,13 +23,13 @@ function MainContent() {
           <Tab.Navigator
             initialRouteName={homeName}
             screenOptions={{
-                tabBarActiveTintColor: 'cornflowerblue',
+                tabBarActiveTintColor: '#9EC8B9',
                 tabBarInactiveTintColor: 'lightgray',
                 labelStyle: { paddingBottom: 5, fontSize: 10},
                 tabBarStyle: {
                     padding: 10, 
                     height: 90, 
-                    backgroundColor: '#122053',
+                    backgroundColor: '#092635',
                     borderTopWidth: 0
                 },
             }}>

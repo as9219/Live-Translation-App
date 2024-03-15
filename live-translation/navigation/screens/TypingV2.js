@@ -120,9 +120,8 @@ export default function LanguageTranslator() {
  
         setToText('Translating...');
  
-        const apiUrl = 
-`https://api.mymemory.translated.net/get?q=
-    ${fromText}&langpair=${fromLanguage}|${toLanguage}`;
+        const apiUrl = `https://api.mymemory.translated.net/get?q=
+        ${fromText}&langpair=${fromLanguage}|${toLanguage}`;
  
         fetch(apiUrl)
             .then((res) => res.json())
@@ -163,6 +162,9 @@ export default function LanguageTranslator() {
                         numberOfLines={4} 
                         // Limit the number of lines shown (adjust as needed)
                     />
+                    
+                </View>
+                <View style={styles.middleWrapper}>
                     <View style={styles.controls}>
                         <ModalDropdown
                             options={Object.values(languages)}
@@ -187,6 +189,11 @@ export default function LanguageTranslator() {
                             style={styles.picker}
                         />
                     </View>
+                    <TouchableOpacity style={styles.button} onPress={translate}>
+                        <Text style={styles.buttonText}>Translate Text</Text>
+                    </TouchableOpacity>
+                </View>
+                <View style={styles.wrapper}>
                     <Input
                         placeholder="Translation"
                         placeholderTextColor={'black'}
@@ -201,12 +208,6 @@ export default function LanguageTranslator() {
                         
                         // Limit the number of lines shown (adjust as needed)
                     />
-                    <TouchableOpacity style={styles.button} onPress={translate}>
-                        <Text style={styles.buttonText}>Translate it</Text>
-                    </TouchableOpacity>
-                </View>
-                <View style={styles.wrapper}>
-                    <Text>This si some text in the container</Text>
                 </View>
             </View>
             
@@ -219,27 +220,44 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        //paddingTop: 10,
         justifyContent: 'center',
-        backgroundColor: '#152f8d',
+        backgroundColor: '#1B4242', //'#152f8d'
+    },
+    heading: {
+        fontSize: 26, 
+        fontWeight: 'bold', 
+        color: 'ghostwhite',
     },
     wrapper: {
         width: '90%',
         height: '30%',
         padding: 20,
         marginTop: 20,
-        backgroundColor: 'cornflowerblue',
-        borderRadius: 16,
+        backgroundColor: '#5C8374',
+        borderRadius: 15,
         shadowColor: '#000',
         //shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.2,
         shadowRadius: 5,
         elevation: 5,
     },
+    middleWrapper: {
+        width: '90%',
+        height: '20%',
+        padding: 10,
+        backgroundColor: '#9EC8B9',
+        //borderWidth: 1,
+        borderRadius: 15,
+        marginTop: 20,
+        shadowOpacity: 0.1,
+        shadowRadius: 5,
+        elevation: 1,
+    },
     controls: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         marginBottom: 10,
+        padding: 10,
     },
     picker: {
         height: 40,
@@ -251,17 +269,19 @@ const styles = StyleSheet.create({
     exchangeButton: {
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#122053', //'#0984e3'
+        backgroundColor: '#092635', //'#0984e3'
         width: 40,
         height: 40,
         borderRadius: 20,
+        marginLeft: 10,
+        marginRight: 10,
     },
     exchangeButtonText: {
         color: 'white',
-        fontSize: 20,
+        fontSize: 25,
     },
     button: {
-        backgroundColor: '#122053', //'#0984e3' '#122053'
+        backgroundColor: '#092635', //'#0984e3' '#122053'
         borderRadius: 8,
         height: 40,
         alignItems: 'center',
@@ -274,9 +294,11 @@ const styles = StyleSheet.create({
     textInputContainer: {
         color: 'black',
         borderBottomColor: 'black',
+        //borderBottomWidth: 0,
     },
     translationTextContainer: {
         color: 'black',
-        borderBottomColor: 'black',
+        //borderBottomColor: 'black',
+        borderBottomWidth: 0,
     }
 });
