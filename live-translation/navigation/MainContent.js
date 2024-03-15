@@ -5,7 +5,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 // importing the screens
 import HomeScreen from './screens/HomeScreen';
-import TypingScreen from './screens/Typing';
+import TypingScreen from './screens/Test';
 import TranslateScreen from './screens/TranslateScreen';
 import HistoryScreen from './screens/History';
 
