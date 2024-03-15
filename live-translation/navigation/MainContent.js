@@ -12,7 +12,7 @@ import HistoryScreen from './screens/History';
 //setting the screen names 
 const homeName = "Home";
 const typingName = "Typing";
-const translateName = "Translation";
+const translateName = "Live";
 const historyName = "History";
 
 const Tab = createBottomTabNavigator();
@@ -23,7 +23,7 @@ function MainContent() {
           <Tab.Navigator
             initialRouteName={homeName}
             screenOptions={{
-                tabBarActiveTintColor: 'ghostwhite',
+                tabBarActiveTintColor: 'cornflowerblue',
                 tabBarInactiveTintColor: 'lightgray',
                 labelStyle: { paddingBottom: 5, fontSize: 10},
                 tabBarStyle: {

@@ -1,8 +1,6 @@
-
-
 import React, { useState } from 'react';
 import { View, 
-         Text, TouchableOpacity, StyleSheet } from 'react-native';
+         Text, TouchableOpacity, StyleSheet, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { Input } from 'react-native-elements';
 import ModalDropdown from 'react-native-modal-dropdown';
  
@@ -149,82 +147,91 @@ export default function LanguageTranslator() {
     };
  
     return (
-        <View style={styles.container}>
-            <View style={styles.wrapper}>
-                <Input
-                    placeholder="Enter text"
-                    value={fromText}
-                    onChangeText={(text) => 
-                        setFromText(text)}
-                    inputContainerStyle=
-                        {styles.textInputContainer}
-                    multiline={true} 
-                    // Allow multiline input
-                    numberOfLines={4} 
-                    // Limit the number of lines shown (adjust as needed)
-                />
-                <View style={styles.controls}>
-                    <ModalDropdown
-                        options={Object.values(languages)}
-                        defaultValue={languages[fromLanguage]}
-                        onSelect={(index, value) => {
-                            setFromLanguage(Object.keys(languages).find(key => 
-                                languages[key] === value));
-                        }}
-                        style={styles.picker}
+        <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+            <View style={styles.container}>
+                <View style={styles.wrapper}>
+                    <Input 
+                        placeholder="Enter text"
+                        value={fromText}
+                        onChangeText={(text) => 
+                            setFromText(text)}
+                        inputContainerStyle=
+                            {styles.textInputContainer}
+                        multiline={true} 
+                        // Allow multiline input
+                        numberOfLines={4} 
+                        // Limit the number of lines shown (adjust as needed)
                     />
-                    <TouchableOpacity style={styles.exchangeButton} 
-                        onPress={exchangeLanguages}>
-                        <Text style={styles.exchangeButtonText}>↔</Text>
+                    <View style={styles.controls}>
+                        <ModalDropdown
+                            options={Object.values(languages)}
+                            defaultValue={languages[fromLanguage]}
+                            onSelect={(index, value) => {
+                                setFromLanguage(Object.keys(languages).find(key => 
+                                    languages[key] === value));
+                            }}
+                            style={styles.picker}
+                        />
+                        <TouchableOpacity style={styles.exchangeButton} 
+                            onPress={exchangeLanguages}>
+                            <Text style={styles.exchangeButtonText}>↔</Text>
+                        </TouchableOpacity>
+                        <ModalDropdown
+                            options={Object.values(languages)}
+                            defaultValue={languages[toLanguage]}
+                            onSelect={(index, value) => {
+                                setToLanguage(Object.keys(languages)
+                                    .find(key => languages[key] === value));
+                            }}
+                            style={styles.picker}
+                        />
+                    </View>
+                    <Input
+                        placeholder="Translation"
+                        value={toText}
+                        inputContainerStyle=
+                            {styles.translationTextContainer}
+                        disabled
+                        multiline={true}
+                        
+                        // Allow multiline input for translation text
+                        numberOfLines={4}
+                        
+                        // Limit the number of lines shown (adjust as needed)
+                    />
+                    <TouchableOpacity style={styles.button} onPress={translate}>
+                        <Text style={styles.buttonText}>Translate it</Text>
                     </TouchableOpacity>
-                    <ModalDropdown
-                        options={Object.values(languages)}
-                        defaultValue={languages[toLanguage]}
-                        onSelect={(index, value) => {
-                            setToLanguage(Object.keys(languages)
-                                .find(key => languages[key] === value));
-                        }}
-                        style={styles.picker}
-                    />
                 </View>
-                <Input
-                    placeholder="Translation"
-                    value={toText}
-                    inputContainerStyle=
-                        {styles.translationTextContainer}
-                    disabled
-                    multiline={true} 
-                     
-                    // Allow multiline input for translation text
-                    numberOfLines={4} 
-                     
-                    // Limit the number of lines shown (adjust as needed)
-                />
-                <TouchableOpacity style={styles.button} onPress={translate}>
-                    <Text style={styles.buttonText}>Translate it</Text>
-                </TouchableOpacity>
+                <View style={styles.wrapper}>
+                    <Text>This si some text in the container</Text>
+                </View>
             </View>
-        </View>
+            
+        </TouchableWithoutFeedback>
+        
     );
 }
 
 const styles = StyleSheet.create({
- 
     container: {
         flex: 1,
         alignItems: 'center',
+        //paddingTop: 10,
         justifyContent: 'center',
-        backgroundColor: 'navy',
+        backgroundColor: '#152f8d',
     },
     wrapper: {
         width: '90%',
+        height: '30%',
         padding: 20,
-        backgroundColor: 'white',
+        marginTop: 20,
+        backgroundColor: 'cornflowerblue',
         borderRadius: 16,
         shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
+        //shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.2,
-        shadowRadius: 4,
+        shadowRadius: 5,
         elevation: 5,
     },
     controls: {
@@ -252,7 +259,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
     },
     button: {
-        backgroundColor: '#122053', //'#0984e3'
+        backgroundColor: '#122053', //'#0984e3' '#122053'
         borderRadius: 8,
         height: 40,
         alignItems: 'center',
@@ -262,5 +269,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: 'white',
     },
- 
+    textInputContainer: {
+        color: 'black',
+    }
 });
