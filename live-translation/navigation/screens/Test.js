@@ -152,6 +152,7 @@ export default function LanguageTranslator() {
                 <View style={styles.wrapper}>
                     <Input 
                         placeholder="Enter text"
+                        placeholderTextColor={'black'}
                         value={fromText}
                         onChangeText={(text) => 
                             setFromText(text)}
@@ -188,6 +189,7 @@ export default function LanguageTranslator() {
                     </View>
                     <Input
                         placeholder="Translation"
+                        placeholderTextColor={'black'}
                         value={toText}
                         inputContainerStyle=
                             {styles.translationTextContainer}
@@ -271,5 +273,10 @@ const styles = StyleSheet.create({
     },
     textInputContainer: {
         color: 'black',
+        borderBottomColor: 'black',
+    },
+    translationTextContainer: {
+        color: 'black',
+        borderBottomColor: 'black',
     }
 });
