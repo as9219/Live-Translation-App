@@ -5,14 +5,14 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 // importing the screens
 import HomeScreen from './screens/HomeScreen';
-import DetailsScreen from './screens/Typing';
-import SettingsScreen from './screens/Audio';
+import TypingScreen from './screens/Typing';
+import TranslateScreen from './screens/TranslateScreen';
 import HistoryScreen from './screens/History';
 
 //setting the screen names 
 const homeName = "Home";
-const detailsName = "Details";
-const settingsName = "Settings";
+const typingName = "Typing";
+const translateName = "Translation";
 const historyName = "History";
 
 const Tab = createBottomTabNavigator();
@@ -45,25 +45,25 @@ function MainContent() {
               }}/>
             
             <Tab.Screen 
-              name={detailsName} 
-              component={DetailsScreen}
+              name={typingName} 
+              component={TypingScreen}
               options={{
                 headerShown: false,
                 tabBarIcon: ({ focused, color, size }) => (
                   <Ionicons name={focused ? 'chatbox-ellipses' : 'chatbox-ellipses-outline'} size={size} color={color} />
                 ),
-                tabBarLabel: detailsName
+                tabBarLabel: typingName
               }}/>
             
             <Tab.Screen 
-              name={settingsName} 
-              component={SettingsScreen}
+              name={translateName} 
+              component={TranslateScreen}
               options={{
                 headerShown: false,
                 tabBarIcon: ({ focused, color, size }) => (
-                  <Ionicons name={focused ? 'volume-high' : 'volume-high-outline'} size={size} color={color} />
+                  <Ionicons name={focused ? 'language' : 'language-outline'} size={size} color={color} />
                 ),
-                tabBarLabel: settingsName
+                tabBarLabel: translateName
               }}/>
             
             <Tab.Screen 
