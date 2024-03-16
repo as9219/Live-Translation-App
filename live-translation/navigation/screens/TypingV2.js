@@ -198,11 +198,9 @@ export default function LanguageTranslator() {
                         placeholder="Translation"
                         placeholderTextColor={'black'}
                         value={toText}
-                        inputContainerStyle=
-                            {styles.translationTextContainer}
-                        disabled
+                        inputContainerStyle={styles.translationTextContainer}
+                        //disabled ?? why is this here
                         multiline={true}
-                        
                         // Allow multiline input for translation text
                         numberOfLines={4}
                         
@@ -214,6 +212,7 @@ export default function LanguageTranslator() {
         </TouchableWithoutFeedback>
         
     );
+    //need to impelement 2 new buttons, one for opening previous translations(redirects to history page), and another for saving the translation
 }
 
 const styles = StyleSheet.create({
