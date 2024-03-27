@@ -103,7 +103,7 @@ const languages = {
     "yi-YD": "Yiddish",
     "zu-ZA": "Zulu"
 };
- 
+
 export default function LanguageTranslator() {
     const [fromText, setFromText] = useState('');
     const [toText, setToText] = useState('');
