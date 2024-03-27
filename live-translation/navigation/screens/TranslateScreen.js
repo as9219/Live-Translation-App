@@ -19,16 +19,20 @@ export default function TranslateScreen({ navigation }) {
                     <View style={styles.chatContainer}>
                         <Text style = {styles.text}>This is some sample text for the main chat container</Text>
                     </View>
-
-                    <View style={styles.textInputContainer}>
-                        <Input
-                            placeholder="Type Here"
-                            placeholderTextColor={'black'}
-                            inputContainerStyle={styles.textBox}
-                            multiline={true}
-                            // Allow multiline input for translation text
-                            numberOfLines={1}
-                        />
+                    <View style={styles.parentInputContainer}>
+                        <View style={styles.textInputContainer}>
+                            <Input
+                                placeholder="Type Here"
+                                placeholderTextColor={'black'}
+                                inputContainerStyle={styles.textBox}
+                                multiline={true}
+                                // Allow multiline input for translation text
+                                numberOfLines={1}
+                            />
+                            <TouchableOpacity style={styles.sendButton}>
+                                <Text style={styles.sendButtonText}>Send</Text>
+                            </TouchableOpacity>
+                        </View> 
                     </View>
                 </View>
             </TouchableWithoutFeedback>
@@ -57,11 +61,16 @@ const styles = StyleSheet.create({
         padding: 10,
         backgroundColor: '#5C8360',
     },
+    parentInputContainer: {
+        
+        justifyContent: 'space-between',
+    },
     textInputContainer: {
-        width: '100%',
+        flexDirection: 'row',
+        alignItems: 'center',
         height: 60,
-        paddingBottom: 20,
-        marginBottom: 5,
+        width: '100%',
+        //paddingLeft: 30,
         backgroundColor: '#5C8374',
         shadowColor: '#000',
         //shadowOffset: { width: 0, height: 2 },
@@ -70,11 +79,26 @@ const styles = StyleSheet.create({
         elevation: 5,
     },
     textBox: {
-        margin: 5,
+        flex: 1,
         borderBottomWidth: 0,
-        padding: 5,
+        marginLeft: 80,
+        paddingTop: 10,
         textAlign: 'left',
         maxHeight: 50,
+    },
+    sendButton: {
+        flex: 0,
+        backgroundColor: '#4BAF51',
+        borderRadius: 25,
+        padding: 10,
+        marginRight: 100,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    sendButtonText: {
+        color: 'white',
+        fontSize: 16,
+        fontWeight: 'bold',
     },
     text: {
         alignItems: 'flex-start',
