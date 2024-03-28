@@ -23,13 +23,13 @@ function MainContent() {
           <Tab.Navigator
             initialRouteName={homeName}
             screenOptions={{
-                tabBarActiveTintColor: '#9EC8B9',
+                tabBarActiveTintColor: '#635985',
                 tabBarInactiveTintColor: 'lightgray',
                 labelStyle: { paddingBottom: 5, fontSize: 10},
                 tabBarStyle: {
                     padding: 10, 
                     height: 90, 
-                    backgroundColor: '#092635',
+                    backgroundColor: '#18122B',
                     borderTopWidth: 0
                 },
             }}>

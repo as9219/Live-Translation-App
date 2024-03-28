@@ -23,16 +23,16 @@ export default function TranslateScreen({ navigation }) {
                         <View style={styles.textInputContainer}>
                             <Input
                                 placeholder="Type Here"
-                                placeholderTextColor={'black'}
+                                placeholderTextColor={'white'}
                                 inputContainerStyle={styles.textBox}
                                 multiline={true}
                                 // Allow multiline input for translation text
                                 numberOfLines={1}
                             />
-                            <TouchableOpacity style={styles.sendButton}>
-                                <Text style={styles.sendButtonText}>Send</Text>
-                            </TouchableOpacity>
                         </View> 
+                        <TouchableOpacity style={styles.sendButton}>
+                            <Text style={styles.sendButtonText}>Send</Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
             </TouchableWithoutFeedback>
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'flex-end',
-        backgroundColor: '#1B4242', //'#152f8d'
+        backgroundColor: '#393053', //'#152f8d'
     },
 
     //implemented for KeyboardAvoidingView
@@ -56,47 +56,48 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end',
     },
     chatContainer: {
-        width: '100%',
+        width: '90%',
         height: '70%',
+        borderRadius: 20,
         padding: 10,
-        backgroundColor: '#5C8360',
+        backgroundColor: '#635985',
     },
     parentInputContainer: {
-        
-        justifyContent: 'space-between',
-    },
-    textInputContainer: {
+        width: '90%',
         flexDirection: 'row',
         alignItems: 'center',
+    },
+    textInputContainer: {
         height: 60,
-        width: '100%',
-        //paddingLeft: 30,
-        backgroundColor: '#5C8374',
+        width: '80%',
+        marginTop: 10,
+        marginBottom: 10,
+        backgroundColor: '#393053',
         shadowColor: '#000',
+        borderRadius: 20,
         //shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.5,
         shadowRadius: 5,
         elevation: 5,
     },
     textBox: {
-        flex: 1,
         borderBottomWidth: 0,
-        marginLeft: 80,
         paddingTop: 10,
         textAlign: 'left',
         maxHeight: 50,
+        width: '100%',
     },
     sendButton: {
-        flex: 0,
-        backgroundColor: '#4BAF51',
-        borderRadius: 25,
+        //flex: 0,
+        backgroundColor: '#DBE7C9',
+        borderRadius: 5,
         padding: 10,
-        marginRight: 100,
+        marginLeft: 10,
         alignItems: 'center',
         justifyContent: 'center',
     },
     sendButtonText: {
-        color: 'white',
+        color: 'black',
         fontSize: 16,
         fontWeight: 'bold',
     },
