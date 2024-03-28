@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet, TouchableOpacity,TouchableWithoutFeedback, KeyboardAvoidingView, Platform, Keyboard } from 'react-native';
 import { Input } from 'react-native-elements';
+import Ionicons from 'react-native-vector-icons/Ionicons'; 
 
 
 export default function TranslateScreen({ navigation }) {
@@ -17,21 +18,21 @@ export default function TranslateScreen({ navigation }) {
                     </Text>
 
                     <View style={styles.chatContainer}>
-                        <Text style = {styles.text}>This is some sample text for the main chat container</Text>
+                        <Text style = {styles.text}>Sample Text</Text>
                     </View>
                     <View style={styles.parentInputContainer}>
                         <View style={styles.textInputContainer}>
-                            <Input
-                                placeholder="Type Here"
+                            {/* <Input
+                                placeholder="Waveform Here"
                                 placeholderTextColor={'white'}
                                 inputContainerStyle={styles.textBox}
                                 multiline={true}
                                 // Allow multiline input for translation text
                                 numberOfLines={1}
-                            />
+                            /> */}
                         </View> 
                         <TouchableOpacity style={styles.sendButton}>
-                            <Text style={styles.sendButtonText}>Send</Text>
+                            <Ionicons name="mic-outline" size={37}></Ionicons>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -57,7 +58,7 @@ const styles = StyleSheet.create({
     },
     chatContainer: {
         width: '90%',
-        height: '70%',
+        height: '75%',
         borderRadius: 20,
         padding: 10,
         backgroundColor: '#635985',
@@ -88,13 +89,16 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     sendButton: {
-        //flex: 0,
         backgroundColor: '#DBE7C9',
-        borderRadius: 5,
+        borderRadius: 15,
         padding: 10,
-        marginLeft: 10,
+        marginLeft: 20,
         alignItems: 'center',
         justifyContent: 'center',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.5,
+        shadowRadius: 5,
+        elevation: 5,
     },
     sendButtonText: {
         color: 'black',
