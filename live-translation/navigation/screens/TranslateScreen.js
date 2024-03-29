@@ -1,9 +1,25 @@
+import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity,TouchableWithoutFeedback, KeyboardAvoidingView, Platform, Keyboard } from 'react-native';
-import { Input } from 'react-native-elements';
+//import { Input } from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons'; 
+import * as Permissions from 'expo-permissions';
+import { Audio } from 'expo-av';
+
 
 
 export default function TranslateScreen({ navigation }) {
+    const [currentDateTime, setCurrentDateTime] = useState(new Date().toLocaleString());
+
+    useEffect(() => {
+        const timer = setInterval(() => {
+            // Update currentDateTime with the current date
+            setCurrentDateTime(new Date().toLocaleDateString());
+        }, 1000); // Update every second
+
+        return () => clearInterval(timer); // Clean up on component unmount
+    }, []);
+
+
     return (
         <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -18,7 +34,7 @@ export default function TranslateScreen({ navigation }) {
                     </Text>
 
                     <View style={styles.chatContainer}>
-                        <Text style = {styles.text}>Sample Text</Text>
+                        <Text style={styles.dateTimeText}>{currentDateTime}</Text>
                     </View>
                     <View style={styles.parentInputContainer}>
                         <View style={styles.textInputContainer}>
@@ -32,7 +48,7 @@ export default function TranslateScreen({ navigation }) {
                             /> */}
                         </View> 
                         <TouchableOpacity style={styles.sendButton}>
-                            <Ionicons name="mic-outline" size={37}></Ionicons>
+                            <Ionicons name={"mic-outline"} size={37}></Ionicons>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -46,7 +62,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'flex-end',
+        justifyContent: 'center',
         backgroundColor: '#393053', //'#152f8d'
     },
 
@@ -62,6 +78,12 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         padding: 10,
         backgroundColor: '#635985',
+    },
+    dateTimeText: {
+        color: 'white', // Adjust the color as needed
+        fontSize: 14, // Adjust the font size as needed
+        marginTop: 10, 
+        alignSelf: 'center',
     },
     parentInputContainer: {
         width: '90%',

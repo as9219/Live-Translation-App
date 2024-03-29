@@ -220,7 +220,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#1B4242', //'#152f8d'
+        backgroundColor: '#393053', //'#152f8d'
     },
     heading: {
         fontSize: 26, 
@@ -232,7 +232,7 @@ const styles = StyleSheet.create({
         height: '30%',
         padding: 20,
         marginTop: 20,
-        backgroundColor: '#5C8374',
+        backgroundColor: '#635985',
         borderRadius: 15,
         shadowColor: '#000',
         //shadowOffset: { width: 0, height: 2 },
