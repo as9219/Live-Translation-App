@@ -15,6 +15,9 @@
       "**/*"
     ],
     "ios": {
+      "infoPlist": {
+        "NSMicrophoneUsageDescription": "Your app needs access to the microphone to record audio."
+      },
       "supportsTablet": true
     },
     "android": {

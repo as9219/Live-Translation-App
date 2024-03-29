@@ -2,15 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity,TouchableWithoutFeedback, KeyboardAvoidingView, Platform, Keyboard } from 'react-native';
 //import { Input } from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons'; 
+import * as Permissions from 'expo-permissions';
 import { Audio } from 'expo-av';
 
 
 
 export default function TranslateScreen({ navigation }) {
     const [currentDateTime, setCurrentDateTime] = useState(new Date().toLocaleString());
-
-    const [recording, setRecording] = useState(false);
-    const [sound, setSound] = useState(null);
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -20,48 +18,6 @@ export default function TranslateScreen({ navigation }) {
 
         return () => clearInterval(timer); // Clean up on component unmount
     }, []);
-
-    useEffect(() => {
-        // Set audio mode for iOS
-        if (Platform.OS === 'ios') {
-            (async () => {
-                await Audio.setAudioModeAsync({
-                    allowsRecordingIOS: true,
-                    playsInSilentModeIOS: true,
-                    staysActiveInBackground: true,
-                    interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_DO_NOT_MIX,
-                    shouldDuckAndroid: true,
-                    interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DO_NOT_MIX,
-                    playThroughEarpieceAndroid: false,
-                    staysActiveInBackground: true,
-                });
-            })();
-        }
-    }, []);
-
-    const startRecording = async () => {
-        try {
-            const { status } = await Audio.requestPermissionsAsync();
-            if (status !== 'granted') return;
-
-            const recordingInstance = new Audio.Recording();
-            await recordingInstance.prepareToRecordAsync(Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY);
-            await recordingInstance.startAsync();
-            setRecording(true);
-            setSound(recordingInstance);
-        } catch (error) {
-            console.error('Failed to start recording', error);
-        }
-    };
-
-    const stopRecording = async () => {
-        try {
-            await sound.stopAndUnloadAsync();
-            setRecording(false);
-        } catch (error) {
-            console.error('Failed to stop recording', error);
-        }
-    };
 
 
     return (
@@ -91,8 +47,8 @@ export default function TranslateScreen({ navigation }) {
                                 numberOfLines={1}
                             /> */}
                         </View> 
-                        <TouchableOpacity style={styles.sendButton} onPress={recording ? stopRecording : startRecording}>
-                            <Ionicons name={recording ? "mic-off-outline" : "mic-outline"} size={37}></Ionicons>
+                        <TouchableOpacity style={styles.sendButton}>
+                            <Ionicons name={"mic-outline"} size={37}></Ionicons>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -106,7 +62,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'flex-end',
+        justifyContent: 'center',
         backgroundColor: '#393053', //'#152f8d'
     },
 
