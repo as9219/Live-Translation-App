@@ -2,9 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity,TouchableWithoutFeedback, KeyboardAvoidingView, Platform, Keyboard } from 'react-native';
 //import { Input } from 'react-native-elements';
 import Ionicons from 'react-native-vector-icons/Ionicons'; 
+import {RootTabParameterList} from '../MainContent.js';
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+
+type TranslateScreenNavigationProp = BottomTabNavigationProp<RootTabParameterList, "Translate">;
 
 
-export default function TranslateScreen({ navigation }) {
+export default function TranslateScreen({ navigation } : { navigation : TranslateScreenNavigationProp}) {
     const [currentDateTime, setCurrentDateTime] = useState(new Date().toLocaleString());
 
     useEffect(() => {

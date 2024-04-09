@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 // importing the screens
 import HomeScreen from './screens/HomeScreen.tsx';
@@ -33,12 +33,11 @@ function MainContent() {
             screenOptions={{
                 tabBarActiveTintColor: '#635985',
                 tabBarInactiveTintColor: 'lightgray',
-                // labelStyle: { paddingBottom: 5, fontSize: 10},
                 tabBarStyle: {
-                    padding: 10, 
+                    paddingBottom: 10, 
                     height: 90, 
                     backgroundColor: '#18122B',
-                    borderTopWidth: 0
+                    borderTopWidth: 0,
                 },
             }}>
     
@@ -48,7 +47,7 @@ function MainContent() {
               options={{
                 headerShown: false,
                 tabBarIcon: ({ focused, color, size }) => (
-                  <Ionicons name={focused ? 'home' : 'home-outline'} size={size} color={color} />
+                  <Icon name={focused ? 'home' : 'home-outline'} size={size} color={color} />
                 ),
                 tabBarLabel: homeName
               }}/>
@@ -59,7 +58,10 @@ function MainContent() {
               options={{
                 headerShown: false,
                 tabBarIcon: ({ focused, color, size }) => (
-                  <Ionicons name={focused ? 'chatbox-ellipses' : 'chatbox-ellipses-outline'} size={size} color={color} />
+                  <Icon 
+                  name={focused ? 'chatbox-ellipses' : 'chatbox-ellipses-outline'}
+                  size={size} 
+                  color={color} />
                 ),
                 tabBarLabel: typingName
               }}/>
@@ -70,7 +72,7 @@ function MainContent() {
               options={{
                 headerShown: false,
                 tabBarIcon: ({ focused, color, size }) => (
-                  <Ionicons name={focused ? 'language' : 'language-outline'} size={size} color={color} />
+                  <Icon name={focused ? 'language' : 'language-outline'} size={size} color={color} />
                 ),
                 tabBarLabel: translateName
               }}/>
@@ -81,11 +83,10 @@ function MainContent() {
               options={{
                 headerShown: false,
                 tabBarIcon: ({ focused, color, size }) => (
-                  <Ionicons name={focused ? 'time' : 'time-outline'} size={size} color={color} />
+                  <Icon name={focused ? 'time' : 'time-outline'} size={size} color={color} />
                 ),
                 tabBarLabel: historyName
               }}/>
-    
           </Tab.Navigator>
         </NavigationContainer>
       );

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { View, 
-         Text, TouchableOpacity, StyleSheet, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { Input } from 'react-native-elements';
+// import { languages } from '../misc/languages.tsx';
 import ModalDropdown from 'react-native-modal-dropdown';
  
 const languages = {
