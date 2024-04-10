@@ -1,24 +1,25 @@
-import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import React, { useEffect, useRef } from 'react';
+import { Animated, StyleSheet } from 'react-native';
 
 type HighlightingBoxProps = {
- isTranslating1: boolean;
- isTranslating2: boolean;
- highlightBox: 'first' | 'second';
+ isTranslating: boolean;
 };
 
-const HighlightingBox: React.FC<HighlightingBoxProps> = ({ isTranslating1, isTranslating2, highlightBox }) => {
+const HighlightingBox: React.FC<HighlightingBoxProps> = ({ isTranslating }) => {
+  const opacity = useRef(new Animated.Value(0)).current;
+ 
+  useEffect(() => {
+     Animated.timing(opacity, {
+       toValue: isTranslating ? 1 : 0, //1 if True, 0 if else
+       duration: 200, //duration
+       useNativeDriver: true,
+     }).start();
+  }, [isTranslating, opacity]);
+ 
   return (
-    <>
-      {highlightBox === 'first' && isTranslating1 && (
-        <View style={styles.highlightingBox}></View>
-      )}
-      {highlightBox === 'second' && isTranslating2 && (
-        <View style={styles.highlightingBox}></View>
-      )}
-    </>
- );
-};
+     <Animated.View style={[styles.highlightingBox, { opacity }]}></Animated.View>
+  );
+ };
 
 const styles = StyleSheet.create({
  highlightingBox: {
@@ -27,7 +28,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    backgroundColor: 'rgba(254, 122, 54, 1)',
     borderRadius: 10,
     zIndex: -1,
  },

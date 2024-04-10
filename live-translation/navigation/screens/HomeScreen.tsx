@@ -13,7 +13,7 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
     const [isTranslating1, setIsTranslating1] = useState(false);
     const [isTranslating2, setIsTranslating2] = useState(false);
     const screenWidth = Dimensions.get('window').width;
-    const containerMargin = screenWidth * 0.01; //10% of screen width
+    const containerMargin = screenWidth * 0.08; //10% of screen width
 
 
     const handlePress = () => {
@@ -50,15 +50,16 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
         <View style={mainStyle.mainContainer}>
             <StatusBar barStyle="light-content" />
             <View style={mainStyle.ButtonContainer}>
+                
+            </View>
+
+            <View style={[mainStyle.ButtonContainer, { marginTop: containerMargin }]}>
                 <TouchableOpacity
                     style={mainStyle.button}
                     onPress={handlePress}
                     >
-                    <Text>Save Conversation</Text>
+                    <Text>Save</Text>
                 </TouchableOpacity>
-            </View>
-
-            <View style={[mainStyle.ButtonContainer, { marginTop: containerMargin }]}>
                 <TouchableOpacity
                     style={mainStyle.button}
                     onPress={handlePress}
@@ -74,7 +75,7 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
             </View>
 
             <View style={[mainStyle.langContainer, { marginBottom: containerMargin }]}>
-                <HighlightingBox isTranslating1={isTranslating1} isTranslating2={isTranslating2} highlightBox={isTranslating1 ? 'second' : 'first'} />
+                <HighlightingBox isTranslating={isTranslating1} />
                 <TextInput
                     style={mainStyle.textInput}
                     onChangeText={setText1}
@@ -87,7 +88,7 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
                 <TouchableOpacity
                     style={[
                         mainStyle.button,
-                        { backgroundColor: isTranslating1 ? '#FF5722' : '#4CAF50' },
+                        { backgroundColor: isTranslating1 ? '#A5D7E8' : '#576CBC' },
                     ]}
                         onPress={handlePressLang1}
                     >
@@ -96,7 +97,7 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
             </View>
 
             <View style={[mainStyle.langContainer, { marginBottom: containerMargin }]}>
-                <HighlightingBox isTranslating1={isTranslating1} isTranslating2={isTranslating2} highlightBox={isTranslating2 ? 'first' : 'second'} />
+                <HighlightingBox isTranslating={isTranslating2} />
                 <TextInput
                     style={mainStyle.textInput}
                     onChangeText={setText2}
@@ -109,7 +110,7 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
                 <TouchableOpacity
                     style={[
                         mainStyle.button,
-                        { backgroundColor: isTranslating2 ? '#FF5722' : '#4CAF50' },
+                        { backgroundColor: isTranslating2 ? '#A5D7E8' : '#576CBC' },
                     ]}
                         onPress={handlePressLang2}
                     >
@@ -122,18 +123,17 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
 
 const mainStyle = StyleSheet.create({
     mainContainer: {
-        backgroundColor: '#393053',
+        backgroundColor: '#0B2447',
         alignItems: 'center',
         justifyContent: 'center',
         flex: 1
     },
     langContainer: {
         flex: 1,
-        width: '95%',
-        //alignItems: 'center',
+        width: '90%',
         justifyContent: 'center',
-        backgroundColor: '#18122B',
-        padding: 10,
+        backgroundColor: 'rgba(255, 255, 255, 0)',
+        padding: 15,
         borderRadius: 10
     },
     ButtonContainer: {
@@ -148,8 +148,13 @@ const mainStyle = StyleSheet.create({
         padding: 10,
         width: '100%',
         height: '80%',
-        backgroundColor: '#18122B',
+        backgroundColor: '#19376D',
         color: '#FFFFFF',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.5,
+        shadowRadius: 3.84,
+        elevation: 5,
     },
     button: {
         margin: 10,
@@ -157,7 +162,12 @@ const mainStyle = StyleSheet.create({
         borderRadius: 10,
         padding: 5,
         alignItems: 'center',
-        backgroundColor: '#9b7dff'
+        backgroundColor: '#576CBC',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.5,
+        shadowRadius: 3.84,
+        elevation: 5,
     },
     view: {
         flex: 1, 
