@@ -2,14 +2,17 @@ import * as React from 'react';
 import { View, Text } from 'react-native';
 import { StyleSheet } from "react-native";
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import {RootTabParameterList} from '../MainContent.js';
 
-export default function HistoryScreen({ navigation }) {
+type HistoryScreenNavigationProp = BottomTabNavigationProp<RootTabParameterList, "History">;
+
+export default function HistoryScreen({ navigation } : { navigation : HistoryScreenNavigationProp }) {
     return (
         <View style={styles.container}>
             
             <Text onPress={() => navigation.navigate('Home')} style={styles.heading}><Ionicons name="time" color='ghostwhite'></Ionicons>  All History</Text>
             <View>
-
             </View>
             <Text>Live Translation History</Text>
             <Text>Typing Translation History</Text>
