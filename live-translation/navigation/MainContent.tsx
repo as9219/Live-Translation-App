@@ -10,7 +10,7 @@ import TranslateScreen from './screens/TranslateScreen.tsx';
 import HistoryScreen from './screens/History.tsx';
 
 //types for the screens
-type RootTabParameterList = {
+export type RootTabParameterList = {
     Home: undefined;
     TypingV2: undefined;
     TranslateScreen: undefined;
