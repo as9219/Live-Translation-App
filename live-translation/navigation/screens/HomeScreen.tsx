@@ -13,42 +13,64 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
     const [text2, setText2] = useState('');
     const [isTranslating1, setIsTranslating1] = useState(false);
     const [isTranslating2, setIsTranslating2] = useState(false);
-
-    const [result, setResult] = React.useState('');
-    const [error, setError] = React.useState('')
-    const [isRecording, setRecording] = React.useState(false);
-
     const screenWidth = Dimensions.get('window').width;
     const screenHeight = Dimensions.get('window').height;
-    const containerMargin = screenWidth * 0.08; //10% of screen width
+    const containerMargin = screenWidth * 0.08; //8% of screen width
 
-    Voice.onSpeechStart = () => setRecording(true);
-    Voice.onSpeechEnd = () => setRecording(false);
-    Voice.onSpeechError = err => setError(err?.error?.message || 'there is some error');
-    Voice.onSpeechResults = result => {
-        if (result.value) {
-            setResult(result.value[0]);
-        } else {
-            setResult('there should be a result here');
-        }
-    };
+    const [isRecording, setRecording] = useState(false);
+    const [isSpeaking, setSpeaking] = useState(true);
 
-    const startRecording = async () => {
-        try {
-            await Voice.start('en-US');
+    const stopSpeaking = () => {
+        setSpeaking(false);
+    }
 
-        }catch (error){
-            setError(String(error));
+    const speechStartHandler = () => {
+        console.log('speech has started')
+    }
+
+    const speechEndHandler = () => {
+        setRecording(false)
+        console.log('Speech has ended');
+    }
+
+    const speechResultHandler = (e: any) => {
+        console.log('voice event: ', e);
+    }
+
+    const speechErrorHandler = (e : any) => {
+        console.error(e);
+    }
+
+    const startRecording = async ()=> {
+        setRecording(true);
+        try{
+            await Voice.start('en_US');
+        }catch(error){
+            console.error(error);
         }
     }
 
-    const stopRecording = async () => {
-        try {
+    const stopRecording = async ()=> {
+        try{
             await Voice.stop();
-        }catch (error){
-            setError(String(error));
+            setRecording(false);
+        }catch(error){
+            console.error(error);
         }
     }
+
+    useEffect(() =>{
+        //voice handler events
+        Voice.onSpeechStart = speechStartHandler;
+        Voice.onSpeechEnd = speechEndHandler;
+        Voice.onSpeechError = speechErrorHandler;
+        Voice.onSpeechResults = speechResultHandler;
+
+        return ()=>{
+            Voice.destroy().then(Voice.removeAllListeners);
+        }
+    }, [])
+
 
     const handlePress = () => {
         alert('Button is pressed')
@@ -115,7 +137,7 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
                     style={mainStyle.textInput}
                     onChangeText={setText1}
                     value={text1}
-                    placeholder={result}
+                    placeholder="Enter text here"
                     placeholderTextColor={'#FFFFFF'}
                     readOnly={!isTranslating1} 
                     multiline={true}
@@ -137,7 +159,7 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
                     style={mainStyle.textInput}
                     onChangeText={setText2}
                     value={text2}
-                    placeholder={error}
+                    placeholder="Translated text will appear here"
                     placeholderTextColor={'#FFFFFF'}
                     readOnly={!isTranslating2} 
                     multiline={true}
