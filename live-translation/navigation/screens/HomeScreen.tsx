@@ -4,7 +4,6 @@ import { Dimensions } from 'react-native';
 import { RootTabParameterList } from '../MainContent.js';
 import HighlightingBox from '../misc/HighlightingBox.tsx';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
-
 import Voice from '@react-native-community/voice';
 
 type HomeScreenNavigationProp = BottomTabNavigationProp<RootTabParameterList, "Home">;
@@ -14,60 +13,42 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
     const [text2, setText2] = useState('');
     const [isTranslating1, setIsTranslating1] = useState(false);
     const [isTranslating2, setIsTranslating2] = useState(false);
-    const [recording, setRecording] = useState(false);
-    const [speaking, setSpeaking] = useState(true);
+
+    const [result, setResult] = React.useState('');
+    const [error, setError] = React.useState('')
+    const [isRecording, setRecording] = React.useState(false);
+
     const screenWidth = Dimensions.get('window').width;
+    const screenHeight = Dimensions.get('window').height;
     const containerMargin = screenWidth * 0.08; //10% of screen width
 
-    //speech constants
-    const speechStartHandler = (e: any)=> {
-        console.log('speech start handler');
-    }
-    const speechEndHandler = (e: any)=> {
-        setRecording(false);
-        console.log('speech end handler');
-    }
-    const speechResultHandler = (e: any)=> {
-        console.log('voice event: ', e);
-    }
-    const speechErrorHandler = e=> {
-        console.log('error: ', e);
-    }
+    Voice.onSpeechStart = () => setRecording(true);
+    Voice.onSpeechEnd = () => setRecording(false);
+    Voice.onSpeechError = err => setError(err?.error?.message || 'there is some error');
+    Voice.onSpeechResults = result => {
+        if (result.value) {
+            setResult(result.value[0]);
+        } else {
+            setResult('there should be a result here');
+        }
+    };
 
-    const startRecording = async (e: any)=>{
-        try{
+    const startRecording = async () => {
+        try {
             await Voice.start('en-US');
-        } catch {
-            console.log('error: ', e)
+
+        }catch (error){
+            setError(String(error));
         }
     }
-    const stopRecording = async (e: any)=>{
-        try{
+
+    const stopRecording = async () => {
+        try {
             await Voice.stop();
-            setRecording(false);
-        } catch(error) {
-            console.log('error: ', error)
+        }catch (error){
+            setError(String(error));
         }
     }
-
-    const stopSpeaking= ()=> {
-        setSpeaking(false); 
-    }
-
-    useEffect(()=> {
-        //voice handler events
-        Voice.onSpeechStart = speechStartHandler;
-        Voice.onSpeechEnd = speechEndHandler;
-        Voice.onSpeechResults = speechResultHandler; 
-        Voice.onSpeechError = speechErrorHandler;
-
-        return ()=>{
-            //we need to destroy all the handlers when not in use
-            Voice.destroy().then(Voice.removeAllListeners);
-        }
-
-    }, [])
-
 
     const handlePress = () => {
         alert('Button is pressed')
@@ -79,7 +60,6 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
             if (newIsTranslating1) {
                 setIsTranslating2(false);
                 alert('Lang 1 Translation started');
-                startRecording;
             } else {
                 stopRecording;
                 alert('Lang 1 Translation stopped');
@@ -117,15 +97,15 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={mainStyle.button}
-                    onPress={handlePress}
+                    onPress={startRecording}
                     >
-                    <Text>Erase Current</Text>
+                    <Text>Start Voice</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={mainStyle.button}
-                        onPress={handlePress}
+                        onPress={stopRecording}
                     >
-                    <Text>Redo Current</Text>
+                    <Text>End Voice</Text>
                 </TouchableOpacity>
             </View>
 
@@ -135,7 +115,7 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
                     style={mainStyle.textInput}
                     onChangeText={setText1}
                     value={text1}
-                    placeholder="Enter text here"
+                    placeholder={result}
                     placeholderTextColor={'#FFFFFF'}
                     readOnly={!isTranslating1} 
                     multiline={true}
@@ -157,7 +137,7 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
                     style={mainStyle.textInput}
                     onChangeText={setText2}
                     value={text2}
-                    placeholder="Translated text will appear here"
+                    placeholder={error}
                     placeholderTextColor={'#FFFFFF'}
                     readOnly={!isTranslating2} 
                     multiline={true}
