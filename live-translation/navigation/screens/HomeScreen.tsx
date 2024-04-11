@@ -77,8 +77,16 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
     }, [])
 
 
-    const handlePress = () => {
-        Alert.alert('Button is pressed')
+    const handleSave = () => {
+        Alert.alert('Save Button is pressed')
+    }
+
+    const handleUndo = () => {
+        Alert.alert('Undo Button is pressed')
+    }
+
+    const handleClear = () => {
+        setText1('')
     }
 
     const handlePressLang1 = () => {
@@ -121,23 +129,23 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
             <View style={[mainStyle.ButtonContainer, { marginTop: containerMargin }]}>
                 <TouchableOpacity
                     style={mainStyle.button}
-                    onPress={handlePress}
+                    onPress={handleSave}
                     >
                     <Text>Save</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={mainStyle.button}
                     //onPress={startRecording}
-                    onPress = {handlePress}
+                    onPress = {handleClear}
                     >
-                    <Text>Start Voice</Text>
+                    <Text>Clear Current</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={mainStyle.button}
                     //onPress={stopRecording}
-                    onPress={handlePress}
+                    onPress={handleUndo}
                     >
-                    <Text>End Voice</Text>
+                    <Text>Undo</Text>
                 </TouchableOpacity>
             </View>
 
@@ -147,7 +155,7 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
                     style={mainStyle.textInput}
                     onChangeText={setText1}
                     value={text1}
-                    placeholder="Enter text here"
+                    placeholder="English Speech Here"
                     placeholderTextColor={'#FFFFFF'}
                     readOnly={!isTranslating1} 
                     multiline={true}
@@ -159,7 +167,7 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
                     ]}
                         onPress={handlePressLang1}
                     >
-                    <Text>{isTranslating1 ? 'Stop Translation' : 'Translate'}</Text>
+                    <Text>{isTranslating1 ? 'Stop Recording' : 'Start Recording'}</Text>
                 </TouchableOpacity>
             </View>
 
@@ -169,7 +177,7 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
                     style={mainStyle.textInput}
                     onChangeText={setText2}
                     value={text2}
-                    placeholder="Translated text will appear here"
+                    placeholder="Translated Language Here"
                     placeholderTextColor={'#FFFFFF'}
                     readOnly={!isTranslating2} 
                     multiline={true}
@@ -181,7 +189,7 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
                     ]}
                         onPress={handlePressLang2}
                     >
-                    <Text>{isTranslating2 ? 'Stop Translation' : 'Translate'}</Text>
+                    <Text>{isTranslating2 ? 'Stop Recording' : 'Start Recording'}</Text>
                 </TouchableOpacity>
             </View>
         </View>
