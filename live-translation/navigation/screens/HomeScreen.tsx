@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, Component, useEffect} from 'react';
 import { View, Text, StatusBar, TouchableOpacity, TextInput, StyleSheet } from 'react-native';
 import { Dimensions } from 'react-native';
 import { RootTabParameterList } from '../MainContent.js';
 import HighlightingBox from '../misc/HighlightingBox.tsx';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+
+import Voice from '@react-native-community/voice';
 
 type HomeScreenNavigationProp = BottomTabNavigationProp<RootTabParameterList, "Home">;
 
@@ -12,8 +14,59 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
     const [text2, setText2] = useState('');
     const [isTranslating1, setIsTranslating1] = useState(false);
     const [isTranslating2, setIsTranslating2] = useState(false);
+    const [recording, setRecording] = useState(false);
+    const [speaking, setSpeaking] = useState(true);
     const screenWidth = Dimensions.get('window').width;
     const containerMargin = screenWidth * 0.08; //10% of screen width
+
+    //speech constants
+    const speechStartHandler = (e: any)=> {
+        console.log('speech start handler');
+    }
+    const speechEndHandler = (e: any)=> {
+        setRecording(false);
+        console.log('speech end handler');
+    }
+    const speechResultHandler = (e: any)=> {
+        console.log('voice event: ', e);
+    }
+    const speechErrorHandler = e=> {
+        console.log('error: ', e);
+    }
+
+    const startRecording = async (e: any)=>{
+        try{
+            await Voice.start('en-US');
+        } catch {
+            console.log('error: ', e)
+        }
+    }
+    const stopRecording = async (e: any)=>{
+        try{
+            await Voice.stop();
+            setRecording(false);
+        } catch(error) {
+            console.log('error: ', error)
+        }
+    }
+
+    const stopSpeaking= ()=> {
+        setSpeaking(false); 
+    }
+
+    useEffect(()=> {
+        //voice handler events
+        Voice.onSpeechStart = speechStartHandler;
+        Voice.onSpeechEnd = speechEndHandler;
+        Voice.onSpeechResults = speechResultHandler; 
+        Voice.onSpeechError = speechErrorHandler;
+
+        return ()=>{
+            //we need to destroy all the handlers when not in use
+            Voice.destroy().then(Voice.removeAllListeners);
+        }
+
+    }, [])
 
 
     const handlePress = () => {
@@ -26,7 +79,9 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
             if (newIsTranslating1) {
                 setIsTranslating2(false);
                 alert('Lang 1 Translation started');
+                startRecording;
             } else {
+                stopRecording;
                 alert('Lang 1 Translation stopped');
             }
             return newIsTranslating1;
