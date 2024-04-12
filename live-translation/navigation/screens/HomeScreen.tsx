@@ -5,6 +5,7 @@ import { RootTabParameterList } from '../MainContent.js';
 import HighlightingBox from '../misc/HighlightingBox.tsx';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import Voice from '@react-native-community/voice';
+import { languages } from '../misc/languages.tsx';
 
 type HomeScreenNavigationProp = BottomTabNavigationProp<RootTabParameterList, "Home">;
 
@@ -17,8 +18,41 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
     const screenHeight = Dimensions.get('window').height;
     const containerMargin = screenHeight * 0.1; //8% of screen height
 
+    const fromLanguage = 'en-GB';
+    const toLanguage = 'es-ES';
+    const [isTranslating, setIsTranslating] = useState(false);
+
     const [isRecording, setRecording] = useState(false);
     const [isSpeaking, setSpeaking] = useState(true);
+
+
+    const translate = () => {
+        if (!text1) {
+            setText2('');
+            return;
+        }
+
+        setIsTranslating(true);
+ 
+        const apiUrl = `https://api.mymemory.translated.net/get?q=
+        ${text1}&langpair=${fromLanguage}|${toLanguage}`;
+ 
+        fetch(apiUrl)
+            .then((res) => res.json())
+            .then((data) => {
+                console.log('API Data: ', data);
+                setText2(data.responseData.translatedText);
+                data.matches.forEach((data) => {
+                    if (data.id === 0) {
+                        setText2(data.translation);
+                    }
+                });
+                setIsTranslating(false)
+            });
+    };
+
+
+
 
     const speechStartHandler = () => {
         console.log('speech has started')
@@ -33,6 +67,7 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
         console.log('voice event: ', e);
         if (e.value && e.value.length > 0) {
             setText1(e.value[0]);
+            //translate();
         }
     }
 
@@ -87,6 +122,7 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
 
     const handleClear = () => {
         setText1('')
+        setText2('')
     }
 
     const handlePressLang1 = () => {
@@ -95,10 +131,11 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
             if (newIsTranslating1) {
                 setIsTranslating2(false);
                 startRecording();
-                Alert.alert('Lang 1 Translation started');
+                //Alert.alert('Lang 1 Translation started');
             } else {
                 stopRecording();
-                Alert.alert('Lang 1 Translation stopped');
+                translate();
+                //Alert.alert('Lang 1 Translation stopped');
             }
             return newIsTranslating1;
         });
@@ -110,10 +147,10 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
             if (newIsTranslating2) {
                 setIsTranslating1(false);
                 startRecording();
-                Alert.alert('Lang 2 Translation started');
+                //Alert.alert('Lang 2 Translation started');
             } else {
                 stopRecording();
-                Alert.alert('Lang 2 Translation stopped');
+                //Alert.alert('Lang 2 Translation stopped');
             }
             return newIsTranslating2;
         });
