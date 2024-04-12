@@ -28,13 +28,14 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
 
 
     const translate = () => {
-        if (!text1 && translationDirection === 'en-GB to es-ES') {
-            setText2('');
-            return;
-        } else if (!text2 && translationDirection === 'es-ES to en-GB') {
+        if (!text1 && translationDirection === 'es-ES to en-GB') {
             setText1('');
             return;
         }
+        else if (!text1 && translationDirection === 'en-GB to es-ES') {
+            setText2('');
+            return;
+        } 
 
         setIsTranslating(true);
 
@@ -139,8 +140,10 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
             const newIsTranslating1 = !prevIsTranslating1;
             if (newIsTranslating1) {
                 setIsTranslating2(false);
-                startRecording('en_US');
                 setTranslationDirection('en-GB to es-ES');
+                console.log(translationDirection);
+                startRecording('en_US');
+                
                 //Alert.alert('Lang 1 Translation started');
             } else {
                 stopRecording();
@@ -156,8 +159,10 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
             const newIsTranslating2 = !prevIsTranslating2;
             if (newIsTranslating2) {
                 setIsTranslating1(false);
-                startRecording('es-US');
                 setTranslationDirection('es-ES to en-GB');
+                console.log(translationDirection);
+                startRecording('es-US');
+                
                 //Alert.alert('Lang 2 Translation started');
             } else {
                 stopRecording();
