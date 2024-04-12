@@ -20,6 +20,7 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
 
     const fromLanguage = 'en-GB';
     const toLanguage = 'es-ES';
+    const [translationDirection, setTranslationDirection] = useState<'en-GB to es-ES' | 'es-ES to en-GB'>('en-GB to es-ES');
     const [isTranslating, setIsTranslating] = useState(false);
 
     const [isRecording, setRecording] = useState(false);
@@ -27,31 +28,36 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
 
 
     const translate = () => {
-        if (!text1) {
+        if (!text1 && translationDirection === 'en-GB to es-ES') {
             setText2('');
+            return;
+        } else if (!text2 && translationDirection === 'es-ES to en-GB') {
+            setText1('');
             return;
         }
 
         setIsTranslating(true);
- 
-        const apiUrl = `https://api.mymemory.translated.net/get?q=
-        ${text1}&langpair=${fromLanguage}|${toLanguage}`;
- 
+
+        // const [fromLang, toLang] = translationDirection.split(' to ');
+        // const apiUrl = `https://api.mymemory.translated.net/get?q=${text1}&langpair=${fromLang}|${toLang}`;
+
+        const [fromLang, toLang] = translationDirection.split(' to ');
+        const apiUrl = `https://api.mymemory.translated.net/get?q=${translationDirection === 'en-GB to es-ES' ? text1 : text2}&langpair=${fromLang}|${toLang}`;
+
+
+
         fetch(apiUrl)
             .then((res) => res.json())
             .then((data) => {
                 console.log('API Data: ', data);
-                setText2(data.responseData.translatedText);
-                data.matches.forEach((data) => {
-                    if (data.id === 0) {
-                        setText2(data.translation);
-                    }
-                });
-                setIsTranslating(false)
+                if (translationDirection === 'en-GB to es-ES') {
+                    setText2(data.responseData.translatedText);
+                } else if (translationDirection === 'es-ES to en-GB') {
+                    setText1(data.responseData.translatedText);
+                }
+                setIsTranslating(false);
             });
     };
-
-
 
 
     const speechStartHandler = () => {
@@ -66,8 +72,11 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
     const speechResultHandler = (e: any) => {
         console.log('voice event: ', e);
         if (e.value && e.value.length > 0) {
-            setText1(e.value[0]);
-            //translate();
+            if (translationDirection === 'en-GB to es-ES') {
+                setText1(e.value[0]);
+            } else if (translationDirection === 'es-ES to en-GB') {
+                setText2(e.value[0]);
+            }
         }
     }
 
@@ -81,10 +90,10 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
         }
     }
 
-    const startRecording = async ()=> {
+    const startRecording = async (language: string)=> {
         setRecording(true);
         try{
-            await Voice.start('en_US');
+            await Voice.start(language);
         }catch(error){
             console.error(error);
         }
@@ -130,7 +139,8 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
             const newIsTranslating1 = !prevIsTranslating1;
             if (newIsTranslating1) {
                 setIsTranslating2(false);
-                startRecording();
+                startRecording('en_US');
+                setTranslationDirection('en-GB to es-ES');
                 //Alert.alert('Lang 1 Translation started');
             } else {
                 stopRecording();
@@ -146,10 +156,12 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
             const newIsTranslating2 = !prevIsTranslating2;
             if (newIsTranslating2) {
                 setIsTranslating1(false);
-                startRecording();
+                startRecording('es-US');
+                setTranslationDirection('es-ES to en-GB');
                 //Alert.alert('Lang 2 Translation started');
             } else {
                 stopRecording();
+                translate();
                 //Alert.alert('Lang 2 Translation stopped');
             }
             return newIsTranslating2;
