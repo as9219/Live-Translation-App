@@ -20,7 +20,8 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
 
     const fromLanguage = 'en-GB';
     const toLanguage = 'es-ES';
-    const [translationDirection, setTranslationDirection] = useState<'en-GB to es-ES' | 'es-ES to en-GB'>('en-GB to es-ES');
+    //const [translationDirection, setTranslationDirection] = useState<'en-GB to es-ES' | 'es-ES to en-GB'>('en-GB to es-ES');
+    const [translatingNumber, setTranslatingNumber] = useState(0); // 0 - Eng, 1 - Spa
     const [isTranslating, setIsTranslating] = useState(false);
 
     const [isRecording, setRecording] = useState(false);
@@ -28,37 +29,34 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
 
 
     const translate = () => {
-        if (!text1 && translationDirection === 'es-ES to en-GB') {
+        if (translatingNumber === 0) {
             setText1('');
             return;
-        }
-        else if (!text1 && translationDirection === 'en-GB to es-ES') {
+        } else if (translatingNumber === 1) {
             setText2('');
             return;
-        } 
-
+        }
+    
         setIsTranslating(true);
-
-        // const [fromLang, toLang] = translationDirection.split(' to ');
-        // const apiUrl = `https://api.mymemory.translated.net/get?q=${text1}&langpair=${fromLang}|${toLang}`;
-
-        const [fromLang, toLang] = translationDirection.split(' to ');
-        const apiUrl = `https://api.mymemory.translated.net/get?q=${translationDirection === 'en-GB to es-ES' ? text1 : text2}&langpair=${fromLang}|${toLang}`;
-
-
-
+    
+        const textToTranslate = translatingNumber === 0 ? text1 : text2;
+        const apiUrl = `https://api.mymemory.translated.net/get?q=${textToTranslate}&langpair=${fromLanguage}|${toLanguage}`;
+    
         fetch(apiUrl)
             .then((res) => res.json())
             .then((data) => {
                 console.log('API Data: ', data);
-                if (translationDirection === 'en-GB to es-ES') {
+                if (translatingNumber === 0) {
                     setText2(data.responseData.translatedText);
-                } else if (translationDirection === 'es-ES to en-GB') {
+                    setIsTranslating1(false);
+                } else if (translatingNumber === 1) {
                     setText1(data.responseData.translatedText);
+                    setIsTranslating2(false);
                 }
-                setIsTranslating(false);
+                
             });
     };
+    
 
 
     const speechStartHandler = () => {
@@ -73,16 +71,16 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
     const speechResultHandler = (e: any) => {
         console.log('voice event: ', e);
         if (e.value && e.value.length > 0) {
-            if (translationDirection === 'en-GB to es-ES') {
+            if (translatingNumber === 0) {
                 setText1(e.value[0]);
-            } else if (translationDirection === 'es-ES to en-GB') {
+            } else if (translatingNumber === 1) {
                 setText2(e.value[0]);
             }
         }
     }
 
     const speechErrorHandler = (e : any) => {
-        //ignoring no inout detected.
+        //ignoring no input detected.
         if (e.code === 'recognition_fail' && e.message === '1110/No speech detected') {
             return;
         }
@@ -101,9 +99,11 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
     }
 
     const stopRecording = async ()=> {
+        setRecording(false);
         try{
             await Voice.stop();
-            setRecording(false);
+            Voice.destroy().then(Voice.removeAllListeners);
+        
         }catch(error){
             console.error(error);
         }
@@ -116,10 +116,18 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
         Voice.onSpeechError = speechErrorHandler;
         Voice.onSpeechResults = speechResultHandler;
 
+        if (translatingNumber === 0) {
+            console.log("Translating number is now 0");
+        }
+
+        if (translatingNumber === 1) {
+            console.log("Translating number is now 1");
+        }
+
         return ()=>{
             Voice.destroy().then(Voice.removeAllListeners);
         }
-    }, [])
+    }, [translatingNumber])
 
 
     const handleSave = () => {
@@ -136,42 +144,35 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
     }
 
     const handlePressLang1 = () => {
+        setIsTranslating2(false);
         setIsTranslating1(prevIsTranslating1 => {
             const newIsTranslating1 = !prevIsTranslating1;
             if (newIsTranslating1) {
-                setIsTranslating2(false);
-                setTranslationDirection('en-GB to es-ES');
-                console.log(translationDirection);
+                setTranslatingNumber(0);
                 startRecording('en_US');
-                
-                //Alert.alert('Lang 1 Translation started');
             } else {
                 stopRecording();
                 translate();
-                //Alert.alert('Lang 1 Translation stopped');
             }
             return newIsTranslating1;
         });
     };
-
+    
     const handlePressLang2 = () => {
+        setIsTranslating1(false);
         setIsTranslating2(prevIsTranslating2 => {
             const newIsTranslating2 = !prevIsTranslating2;
             if (newIsTranslating2) {
-                setIsTranslating1(false);
-                setTranslationDirection('es-ES to en-GB');
-                console.log(translationDirection);
-                startRecording('es-US');
-                
-                //Alert.alert('Lang 2 Translation started');
+                setTranslatingNumber(1);
+                startRecording('en_US');
             } else {
                 stopRecording();
                 translate();
-                //Alert.alert('Lang 2 Translation stopped');
             }
             return newIsTranslating2;
         });
     };
+    
 
     return (
         <View style={mainStyle.mainContainer}>
