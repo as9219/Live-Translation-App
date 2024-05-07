@@ -12,18 +12,20 @@ type HomeScreenNavigationProp = BottomTabNavigationProp<RootTabParameterList, "H
 export default function HomeScreen({ navigation } : {navigation : HomeScreenNavigationProp}) {
     const [text1, setText1] = useState('');
     const [text2, setText2] = useState('');
+
     const [isTranslating1, setIsTranslating1] = useState(false);
     const [isTranslating2, setIsTranslating2] = useState(false);
+
     const screenWidth = Dimensions.get('window').width;
     const screenHeight = Dimensions.get('window').height;
     const containerMargin = screenHeight * 0.1; //8% of screen height
 
     let languages: Array<string>  = ['en-GB', 'es-ES']
     const [translatingNumber, setTranslatingNumber] = useState(0); // 0 - Eng, 1 - Spa
-    const [isTranslating, setIsTranslating] = useState(false);
+    //const [isTranslating, setIsTranslating] = useState(false);
 
     const [isRecording, setRecording] = useState(false);
-    const [isSpeaking, setSpeaking] = useState(true);
+    //const [isSpeaking, setSpeaking] = useState(true);
 
     const emptyInput = "NO QUERY SPECIFIED. EXAMPLE REQUEST: GET?Q=HELLO&LANGPAIR=EN|IT"
 
@@ -38,7 +40,6 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
         const apiUrl = translatingNumber === 0 ? `https://api.mymemory.translated.net/get?q=${textToTranslate}&langpair=${languages[0]}|${languages[1]}` : 
         `https://api.mymemory.translated.net/get?q=${textToTranslate}&langpair=${languages[1]}|${languages[0]}`;
         
-        setIsTranslating(true);
     
         fetch(apiUrl)
             .then((res) => res.json())
@@ -64,15 +65,12 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
                     }
                     setIsTranslating2(false);
                 }
-
             })
             .catch((error) => {
                 console.error('Error found: ', error);
             });
     };
     
-
-
     const speechStartHandler = () => {
         console.log('Speech has started')
     }
@@ -123,10 +121,6 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
         }
     }
 
-    const speechVolumeChanged = () => {
-        console.log('volume has been changed')
-    }
-
     useEffect(() =>{
         //voice handler events
         Voice.onSpeechStart = speechStartHandler;
@@ -169,6 +163,7 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
             const newIsTranslating1 = !prevIsTranslating1;
             if (newIsTranslating1) {
                 setTranslatingNumber(0);
+                setText1('')
                 startRecording('en_US');
             } else {
                 stopRecording();
@@ -184,6 +179,7 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
             const newIsTranslating2 = !prevIsTranslating2;
             if (newIsTranslating2) {
                 setTranslatingNumber(1);
+                setText2('')
                 startRecording('es_US');
             } else {
                 stopRecording();
@@ -193,7 +189,7 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
         });
     };
     
-
+    //Main UI of homepage
     return (
         <View style={mainStyle.mainContainer}>
             <StatusBar barStyle="light-content" />
@@ -272,8 +268,7 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
 }
 
 
-
-
+//Styles of Homepage
 const mainStyle = StyleSheet.create({
     mainContainer: {
         backgroundColor: '#0B2447',
