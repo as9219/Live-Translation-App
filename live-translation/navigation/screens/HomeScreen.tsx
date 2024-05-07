@@ -18,49 +18,63 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
     const screenHeight = Dimensions.get('window').height;
     const containerMargin = screenHeight * 0.1; //8% of screen height
 
-    const fromLanguage = 'en-GB';
-    const toLanguage = 'es-ES';
-    //const [translationDirection, setTranslationDirection] = useState<'en-GB to es-ES' | 'es-ES to en-GB'>('en-GB to es-ES');
+    let languages: Array<string>  = ['en-GB', 'es-ES']
     const [translatingNumber, setTranslatingNumber] = useState(0); // 0 - Eng, 1 - Spa
     const [isTranslating, setIsTranslating] = useState(false);
 
     const [isRecording, setRecording] = useState(false);
     const [isSpeaking, setSpeaking] = useState(true);
 
+    const emptyInput = "NO QUERY SPECIFIED. EXAMPLE REQUEST: GET?Q=HELLO&LANGPAIR=EN|IT"
 
     const translate = () => {
         if (translatingNumber === 0) {
-            setText1('');
-            return;
-        } else if (translatingNumber === 1) {
             setText2('');
-            return;
+        } else if (translatingNumber === 1) {
+            setText1('');
         }
-    
-        setIsTranslating(true);
-    
+
         const textToTranslate = translatingNumber === 0 ? text1 : text2;
-        const apiUrl = `https://api.mymemory.translated.net/get?q=${textToTranslate}&langpair=${fromLanguage}|${toLanguage}`;
+        const apiUrl = translatingNumber === 0 ? `https://api.mymemory.translated.net/get?q=${textToTranslate}&langpair=${languages[0]}|${languages[1]}` : 
+        `https://api.mymemory.translated.net/get?q=${textToTranslate}&langpair=${languages[1]}|${languages[0]}`;
+        
+        setIsTranslating(true);
     
         fetch(apiUrl)
             .then((res) => res.json())
             .then((data) => {
-                console.log('API Data: ', data);
+                console.log('Translated Text: ', data.responseData.translatedText)
+
                 if (translatingNumber === 0) {
-                    setText2(data.responseData.translatedText);
+                    if(data.responseData.translatedText === emptyInput){
+                        setText2('No Input Detected. Please try again');
+                    }
+                    else{
+                        setText2(data.responseData.translatedText);
+                    }
                     setIsTranslating1(false);
-                } else if (translatingNumber === 1) {
-                    setText1(data.responseData.translatedText);
+
+                } 
+                else if (translatingNumber === 1) {
+                    if(data.responseData.translatedText === emptyInput){
+                        setText1('No Input Detected. Please try again');
+                    }
+                    else{
+                        setText1(data.responseData.translatedText);
+                    }
                     setIsTranslating2(false);
                 }
-                
+
+            })
+            .catch((error) => {
+                console.error('Error found: ', error);
             });
     };
     
 
 
     const speechStartHandler = () => {
-        console.log('speech has started')
+        console.log('Speech has started')
     }
 
     const speechEndHandler = () => {
@@ -109,6 +123,10 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
         }
     }
 
+    const speechVolumeChanged = () => {
+        console.log('volume has been changed')
+    }
+
     useEffect(() =>{
         //voice handler events
         Voice.onSpeechStart = speechStartHandler;
@@ -116,16 +134,18 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
         Voice.onSpeechError = speechErrorHandler;
         Voice.onSpeechResults = speechResultHandler;
 
+        return ()=>{
+            Voice.destroy().then(Voice.removeAllListeners);
+        }
+    }, [])
+
+    useEffect(() => {
         if (translatingNumber === 0) {
-            console.log("Translating number is now 0");
+            console.log("Translating 0");
         }
 
         if (translatingNumber === 1) {
-            console.log("Translating number is now 1");
-        }
-
-        return ()=>{
-            Voice.destroy().then(Voice.removeAllListeners);
+            console.log("Translating 1");
         }
     }, [translatingNumber])
 
@@ -164,7 +184,7 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
             const newIsTranslating2 = !prevIsTranslating2;
             if (newIsTranslating2) {
                 setTranslatingNumber(1);
-                startRecording('en_US');
+                startRecording('es_US');
             } else {
                 stopRecording();
                 translate();
