@@ -163,7 +163,7 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
             const newIsTranslating1 = !prevIsTranslating1;
             if (newIsTranslating1) {
                 setTranslatingNumber(0);
-                setText1('')
+                //setText1('')
                 startRecording('en_US');
             } else {
                 stopRecording();
@@ -179,7 +179,7 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
             const newIsTranslating2 = !prevIsTranslating2;
             if (newIsTranslating2) {
                 setTranslatingNumber(1);
-                setText2('')
+                //setText2('')
                 startRecording('es_US');
             } else {
                 stopRecording();
@@ -188,6 +188,10 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
             return newIsTranslating2;
         });
     };
+
+    // const speak = () => {
+    //     Tts.speak('This is something I need for you to speak');
+    // }
     
     //Main UI of homepage
     return (
@@ -238,7 +242,7 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
                     ]}
                         onPress={handlePressLang1}
                     >
-                    <Text>{isTranslating1 ? 'Stop Recording' : 'Start Recording'}</Text>
+                    <Text>{isTranslating1 ? 'Finish Recording' : 'Start Recording'}</Text>
                 </TouchableOpacity>
             </View>
 
@@ -260,7 +264,7 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
                     ]}
                         onPress={handlePressLang2}
                     >
-                    <Text>{isTranslating2 ? 'Stop Recording' : 'Start Recording'}</Text>
+                    <Text>{isTranslating2 ? 'Finish Recording' : 'Start Recording'}</Text>
                 </TouchableOpacity>
             </View>
         </View>
