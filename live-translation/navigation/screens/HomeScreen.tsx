@@ -7,6 +7,9 @@ import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import Voice from '@react-native-community/voice';
 import { languages } from '../misc/languages.tsx';
 
+import { client } from "@gradio/client";
+import axios from 'axios'
+
 type HomeScreenNavigationProp = BottomTabNavigationProp<RootTabParameterList, "Home">;
 
 export default function HomeScreen({ navigation } : {navigation : HomeScreenNavigationProp}) {
@@ -148,8 +151,24 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
         Alert.alert('Save Button is pressed')
     }
 
-    const handleUndo = () => {
-        Alert.alert('Undo Button is pressed')
+    //does not work, uninstall the package gradio and axios
+    const handleSpeak = async () => {
+        try {
+            const app = await axios.post("https://facebook-seamless-m4t-v2-large.hf.space/--replicas/1gdk7/")
+
+            const response = await axios.post("https://facebook-seamless-m4t-v2-large.hf.space/--replicas/1gdk7/t2st", {
+                inputs: ["Hello this is a test!!"], // Input text
+                options: {
+                    input_type: "text", // Source language
+                    output_type: "text", // Target language
+                    target: "Hindi", // Target language
+                }
+            });
+    
+            console.log(response.data); // Output data
+        } catch (error) {
+            console.error('Error:', error);
+        }
     }
 
     const handleClear = () => {
@@ -218,7 +237,7 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
                 <TouchableOpacity
                     style={mainStyle.button}
                     //onPress={stopRecording}
-                    onPress={handleUndo}
+                    onPress={handleSpeak}
                     >
                     <Text>Undo</Text>
                 </TouchableOpacity>
