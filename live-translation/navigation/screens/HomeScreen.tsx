@@ -27,7 +27,7 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
     const [isRecording, setRecording] = useState(false);
     //const [isSpeaking, setSpeaking] = useState(true);
 
-    const emptyInput = "NO QUERY SPECIFIED. EXAMPLE REQUEST: GET?Q=HELLO&LANGPAIR=EN|IT"
+    const emptyInput = "NO QUERY SPECIFIED. EXAMPLE REQUEST: GET?Q=HELLO&LANGPAIR=EN|IT";
 
     const translate = () => {
         if (translatingNumber === 0) {
@@ -44,7 +44,7 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
         fetch(apiUrl)
             .then((res) => res.json())
             .then((data) => {
-                console.log('Translated Text: ', data.responseData.translatedText)
+                console.log('Translated Text: ', data.responseData.translatedText);
 
                 if (translatingNumber === 0) {
                     if(data.responseData.translatedText === emptyInput){
@@ -69,19 +69,19 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
             .catch((error) => {
                 console.error('Error found: ', error);
             });
-    };
+    }
     
     const speechStartHandler = () => {
-        console.log('Speech has started')
-    }
+        console.log('Speech has started');
+    };
 
     const speechEndHandler = () => {
-        setRecording(false)
+        setRecording(false);
         console.log('Speech has ended');
-    }
+    };
 
     const speechResultHandler = (e: any) => {
-        console.log('voice event: ', e);
+        console.log('voice event: ', e)
         if (e.value && e.value.length > 0) {
             if (translatingNumber === 0) {
                 setText1(e.value[0]);
@@ -89,7 +89,7 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
                 setText2(e.value[0]);
             }
         }
-    }
+    };
 
     const speechErrorHandler = (e : any) => {
         //ignoring no input detected.
@@ -108,7 +108,7 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
         }catch(error){
             console.error(error);
         }
-    }
+    };
 
     const stopRecording = async ()=> {
         setRecording(false);
@@ -119,7 +119,7 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
         }catch(error){
             console.error(error);
         }
-    }
+    };
 
     useEffect(() =>{
         //voice handler events
@@ -137,25 +137,20 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
         if (translatingNumber === 0) {
             console.log("Translating 0");
         }
-
-        if (translatingNumber === 1) {
+        else if (translatingNumber === 1) {
             console.log("Translating 1");
         }
     }, [translatingNumber])
 
 
     const handleSave = () => {
-        Alert.alert('Save Button is pressed')
-    }
-
-    const handleUndo = () => {
-        Alert.alert('Undo Button is pressed')
-    }
+        Alert.alert('Save Button is pressed');
+    };
 
     const handleClear = () => {
-        setText1('')
-        setText2('')
-    }
+        setText1('');
+        setText2('');
+    };
 
     const handlePressLang1 = () => {
         setIsTranslating2(false);
@@ -163,7 +158,6 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
             const newIsTranslating1 = !prevIsTranslating1;
             if (newIsTranslating1) {
                 setTranslatingNumber(0);
-                //setText1('')
                 startRecording('en_US');
             } else {
                 stopRecording();
@@ -179,7 +173,6 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
             const newIsTranslating2 = !prevIsTranslating2;
             if (newIsTranslating2) {
                 setTranslatingNumber(1);
-                //setText2('')
                 startRecording('es_US');
             } else {
                 stopRecording();
@@ -188,10 +181,6 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
             return newIsTranslating2;
         });
     };
-
-    // const speak = () => {
-    //     Tts.speak('This is something I need for you to speak');
-    // }
     
     //Main UI of homepage
     return (
@@ -218,7 +207,7 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
                 <TouchableOpacity
                     style={mainStyle.button}
                     //onPress={stopRecording}
-                    onPress={handleUndo}
+                    //onPress={handleSpeak}
                     >
                     <Text>Undo</Text>
                 </TouchableOpacity>
