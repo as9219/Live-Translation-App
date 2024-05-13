@@ -5,10 +5,10 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {RootTabParameterList} from '../MainContent.js';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 
-type TranslateScreenNavigationProp = BottomTabNavigationProp<RootTabParameterList, "TranslateScreen">;
+type SettingsNavigationProp = BottomTabNavigationProp<RootTabParameterList, "Settings">;
 
 
-export default function TranslateScreen({ navigation } : { navigation : TranslateScreenNavigationProp}) {
+export default function Settings({ navigation } : { navigation : SettingsNavigationProp}) {
     const [currentDateTime, setCurrentDateTime] = useState(new Date().toLocaleString());
 
     useEffect(() => {
@@ -29,26 +29,9 @@ export default function TranslateScreen({ navigation } : { navigation : Translat
                 <View style={styles.innerContainer}>
                     <Text
                         onPress={() => navigation.navigate('Home')}
-                        style={styles.text}>Translation Screen
+                        style={styles.text}>Settings Screen
                     </Text>
-                    <View style={styles.chatContainer}>
-                        <Text style={styles.dateTimeText}>{currentDateTime}</Text>
-                    </View>
-                    <View style={styles.parentInputContainer}>
-                        <View style={styles.textInputContainer}>
-                            {/* <Input
-                                placeholder="Waveform Here"
-                                placeholderTextColor={'white'}
-                                inputContainerStyle={styles.textBox}
-                                multiline={true}
-                                // Allow multiline input for translation text
-                                numberOfLines={1}
-                            /> */}
-                        </View> 
-                        <TouchableOpacity style={styles.sendButton}>
-                            <Ionicons name={"mic-outline"} size={37}></Ionicons>
-                        </TouchableOpacity>
-                    </View>
+                    <Text style={styles.dateTimeText}>{currentDateTime}</Text>
                 </View>
             </TouchableWithoutFeedback>
         </KeyboardAvoidingView>

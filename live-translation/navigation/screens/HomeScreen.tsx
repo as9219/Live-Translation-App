@@ -5,7 +5,6 @@ import { RootTabParameterList } from '../MainContent.js';
 import HighlightingBox from '../misc/HighlightingBox.tsx';
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 import Voice from '@react-native-community/voice';
-import { languages } from '../misc/languages.tsx';
 
 type HomeScreenNavigationProp = BottomTabNavigationProp<RootTabParameterList, "Home">;
 
