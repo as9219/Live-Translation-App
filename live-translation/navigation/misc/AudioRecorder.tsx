@@ -18,11 +18,12 @@ import AudioRecorderPlayer, {
     StyleSheet,
     Text,
     TouchableOpacity,
-    View,
+    View
   } from 'react-native';
   import React, {Component} from 'react';
-  
-  import Button from '../misc/Button.tsx';
+  import RNFetchBlob from 'rn-fetch-blob'; // for android
+  import RNFS from 'react-native-fs'; // for ios
+  // import Button from '../misc/Button.tsx';
   import type {ReactElement} from 'react';
   
   const styles: any = StyleSheet.create({
@@ -117,10 +118,11 @@ import AudioRecorderPlayer, {
   }
   
   const screenWidth = Dimensions.get('screen').width;
-  
+
   class Page extends Component<any, State> {
+    // private dirs = RNFetchBlob.fs.dirs;
     private path = Platform.select({
-      ios: undefined,
+      ios: `file://${RNFS.DocumentDirectoryPath}/raw.m4a`,
       android: undefined,
   
       // Discussion: https://github.com/hyochan/react-native-audio-recorder-player/discussions/479
@@ -162,13 +164,13 @@ import AudioRecorderPlayer, {
           <Text style={styles.txtRecordCounter}>{this.state.recordTime}</Text>
           <View style={styles.viewRecorder}>
             <View style={styles.recordBtnWrapper}>
-              <Button
+              <TouchableOpacity
                 style={styles.btn}
                 onPress={this.onStartRecord}
-                textStyle={styles.txt}>
-                Record
-              </Button>
-              <Button
+                >
+                <Text>Record</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
                 style={[
                   styles.btn,
                   {
@@ -176,10 +178,10 @@ import AudioRecorderPlayer, {
                   },
                 ]}
                 onPress={this.onPauseRecord}
-                textStyle={styles.txt}>
-                Pause
-              </Button>
-              <Button
+                >
+                <Text>Pause</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
                 style={[
                   styles.btn,
                   {
@@ -187,15 +189,15 @@ import AudioRecorderPlayer, {
                   },
                 ]}
                 onPress={this.onResumeRecord}
-                textStyle={styles.txt}>
-                Resume
-              </Button>
-              <Button
+                >
+                <Text>Resume</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
                 style={[styles.btn, {marginLeft: 12}]}
                 onPress={this.onStopRecord}
-                textStyle={styles.txt}>
-                Stop
-              </Button>
+                >
+                <Text>Stop</Text>
+              </TouchableOpacity>
             </View>
           </View>
           <View style={styles.viewPlayer}>
@@ -210,12 +212,12 @@ import AudioRecorderPlayer, {
               {this.state.playTime} / {this.state.duration}
             </Text> */}
             <View style={styles.playBtnWrapper}>
-              <Button
+              <TouchableOpacity
                 style={styles.btn}
                 onPress={this.onStartPlay}
-                textStyle={styles.txt}>
-                Play
-              </Button>
+                >
+                <Text>Play</Text> 
+              </TouchableOpacity>
               {/* <Button
                 style={[
                   styles.btn,
@@ -238,7 +240,7 @@ import AudioRecorderPlayer, {
                 textStyle={styles.txt}>
                 Resume
               </Button> */}
-              <Button
+              <TouchableOpacity
                 style={[
                   styles.btn,
                   {
@@ -246,9 +248,9 @@ import AudioRecorderPlayer, {
                   },
                 ]}
                 onPress={this.onStopPlay}
-                textStyle={styles.txt}>
-                Stop
-              </Button>
+                >
+                <Text>Stop</Text>
+              </TouchableOpacity>
             </View>
           </View>
         </SafeAreaView>
