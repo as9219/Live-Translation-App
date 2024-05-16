@@ -1,6 +1,3 @@
 {
   "extends": "@react-native/typescript-config/tsconfig.json",
-  "include": [
-    "navigation/screens/Typing.tsx"
- ]
 }

@@ -1,0 +1,6 @@
+module Pods_newLiveTranslation_newLiveTranslationTests {
+  umbrella header "Pods-newLiveTranslation-newLiveTranslationTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
