@@ -23,50 +23,53 @@ import AudioRecorderPlayer, {
   import React, {Component} from 'react';
   import RNFetchBlob from 'rn-fetch-blob'; // for android
   import RNFS from 'react-native-fs'; // for ios
-  // import Button from '../misc/Button.tsx';
   import type {ReactElement} from 'react';
   
-  const styles: any = StyleSheet.create({
+  const audioRecorderStyles: any = StyleSheet.create({
     container: {
-      flex: 1,
-      flexDirection: 'column',
-      alignItems: 'center',
-      backgroundColor: '#0C77E0',
-      borderRadius: 10,
+        // flex: 1,
+        flexDirection: 'column',
+        alignItems: 'center',
+        backgroundColor: '#3C5B6F',
+        borderRadius: 10,
+        shadowOpacity: 0.2,
+        shadowRadius: 10,
+        shadowColor: '#000',
+        shadowOffset: { width: 5, height: 5 },
     },
     titleTxt: {
-      marginTop: 100,
-      color: 'white',
-      fontSize: 28,
+        fontWeight: 'bold',
+        color: 'white',
+        fontSize: 28,
     },
     viewRecorder: {
-        marginTop: 40,
-        width: '100%',
-        alignItems: 'center',
-      },
-      recordBtnWrapper: {
-        flexDirection: 'row',
-      },
-      viewPlayer: {
-        marginTop: 60,
-        alignSelf: 'stretch',
-        alignItems: 'center',
-      },
-      viewBarWrapper: {
-        marginTop: 28,
-        marginHorizontal: 28,
-        alignSelf: 'stretch',
-      },
-      viewBar: {
-        backgroundColor: '#ccc',
-        height: 4,
-        alignSelf: 'stretch',
-      },
-      viewBarPlay: {
-        backgroundColor: 'white',
-        height: 4,
-        width: 0,
-      },
+      marginTop: 40,
+      width: '100%',
+      alignItems: 'center',
+    },
+    recordBtnWrapper: {
+      flexDirection: 'row',
+    },
+    viewPlayer: {
+      marginTop: 60,
+      alignSelf: 'stretch',
+      alignItems: 'center',
+    },
+    viewBarWrapper: {
+      // marginTop: 5,
+      marginHorizontal: 28,
+      alignSelf: 'stretch',
+    },
+    viewBar: {
+      backgroundColor: '#ccc',
+      height: 4,
+      alignSelf: 'stretch',
+    },
+    viewBarPlay: {
+      backgroundColor: 'white',
+      height: 4,
+      width: 0,
+    },
     playStatusTxt: {
       marginTop: 8,
       color: '#ccc',
@@ -76,9 +79,11 @@ import AudioRecorderPlayer, {
       marginTop: 40,
     },
     btn: {
+      margin: 10,
+      padding: 8,
       borderColor: 'black',
       borderRadius: 5,
-      backgroundColor: '#455A64',
+      backgroundColor: '#948979',
       borderWidth: 1,
     },
     txt: {
@@ -122,7 +127,7 @@ import AudioRecorderPlayer, {
   class Page extends Component<any, State> {
     // private dirs = RNFetchBlob.fs.dirs;
     private path = Platform.select({
-      ios: `file://${RNFS.DocumentDirectoryPath}/raw.m4a`,
+      ios: `file://${RNFS.DocumentDirectoryPath}/translated.wav`,
       android: undefined,
   
       // Discussion: https://github.com/hyochan/react-native-audio-recorder-player/discussions/479
@@ -152,101 +157,58 @@ import AudioRecorderPlayer, {
   
     public render(): ReactElement {
       let playWidth =
-        (this.state.currentPositionSec / this.state.currentDurationSec) *
-        (screenWidth - 56);
+        (this.state.currentPositionSec / this.state.currentDurationSec) * (screenWidth - 127);
+        // (this.state.currentPositionSec / this.state.currentDurationSec);
   
       if (!playWidth) {
         playWidth = 0;
       }
   
       return (
-        <SafeAreaView style={styles.container}>
-          <Text style={styles.txtRecordCounter}>{this.state.recordTime}</Text>
-          <View style={styles.viewRecorder}>
-            <View style={styles.recordBtnWrapper}>
-              <TouchableOpacity
-                style={styles.btn}
-                onPress={this.onStartRecord}
-                >
-                <Text>Record</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[
-                  styles.btn,
-                  {
-                    marginLeft: 12,
-                  },
-                ]}
-                onPress={this.onPauseRecord}
-                >
-                <Text>Pause</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[
-                  styles.btn,
-                  {
-                    marginLeft: 12,
-                  },
-                ]}
-                onPress={this.onResumeRecord}
-                >
-                <Text>Resume</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[styles.btn, {marginLeft: 12}]}
-                onPress={this.onStopRecord}
-                >
-                <Text>Stop</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-          <View style={styles.viewPlayer}>
+        <SafeAreaView style={audioRecorderStyles .container}>
+          <Text style={audioRecorderStyles .titleTxt}>Translated Audio</Text>
+          <View style={audioRecorderStyles.viewPlayer}>
             <TouchableOpacity
-              style={styles.viewBarWrapper}
+              style={audioRecorderStyles.viewBarWrapper}
               onPress={this.onStatusPress}>
-              <View style={styles.viewBar}>
-                <View style={[styles.viewBarPlay, {width: playWidth}]} />
+              <View style={audioRecorderStyles.viewBar}>
+                <View style={[audioRecorderStyles.viewBarPlay, {width: playWidth}]} />
               </View>
             </TouchableOpacity>
-            {/* <Text style={styles.txtCounter}>
+            <Text style={audioRecorderStyles .txtCounter}>
               {this.state.playTime} / {this.state.duration}
-            </Text> */}
-            <View style={styles.playBtnWrapper}>
+            </Text>
+            <View style={audioRecorderStyles .playBtnWrapper}>
               <TouchableOpacity
-                style={styles.btn}
+                style={audioRecorderStyles .btn}
                 onPress={this.onStartPlay}
                 >
                 <Text>Play</Text> 
               </TouchableOpacity>
               {/* <Button
                 style={[
-                  styles.btn,
+                  audioRecorderStyles .btn,
                   {
                     marginLeft: 12,
                   },
                 ]}
                 onPress={this.onPausePlay}
-                textStyle={styles.txt}>
+                textStyle={audioRecorderStyles .txt}>
                 Pause
               </Button> */}
               {/* <Button
                 style={[
-                  styles.btn,
+                  audioRecorderStyles .btn,
                   {
                     marginLeft: 12,
                   },
                 ]}
                 onPress={this.onResumePlay}
-                textStyle={styles.txt}>
+                textStyle={audioRecorderStyles .txt}>
                 Resume
               </Button> */}
               <TouchableOpacity
-                style={[
-                  styles.btn,
-                  {
-                    marginLeft: 12,
-                  },
-                ]}
+                style={audioRecorderStyles .btn}
                 onPress={this.onStopPlay}
                 >
                 <Text>Stop</Text>

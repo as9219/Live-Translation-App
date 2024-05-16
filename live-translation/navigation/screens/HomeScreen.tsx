@@ -1,72 +1,44 @@
-import React, { useState, Component, useEffect} from 'react';
+import React from 'react';
 import { View, Text, StatusBar, TouchableOpacity, TextInput, StyleSheet, Alert, SafeAreaView} from 'react-native';
 import { Dimensions } from 'react-native';
 import { RootTabParameterList } from '../MainContent.js';
-import HighlightingBox from '../misc/HighlightingBox.tsx';
+import HighlightingBox from '../misc/HighlightingBox.tsx'; // unused, but still can used if needed
 import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
-import Voice from '@react-native-community/voice';
-import AudioRecorder from '../misc/AudioRecorder.tsx';
+import Voice from '@react-native-community/voice'; // unused import
+import AudioRecorderRaw from '../misc/AudioRecorderRaw.tsx';
+import AudioRecorderTranslated from '../misc/AudioRecorderTranslated.tsx';
+import { audioRecorderStyles } from '../misc/AudioRecorderRaw.tsx';
 
 type HomeScreenNavigationProp = BottomTabNavigationProp<RootTabParameterList, "Home">;
 const screenHeight = Dimensions.get('window').height;
 const screenWidth = Dimensions.get('window').width;
 
 export default function HomeScreen({ navigation } : {navigation : HomeScreenNavigationProp}) {
-    const [text1, setText1] = useState('');
 
-    const [isTranslating1, setIsTranslating1] = useState(false);
-    const [isTranslating2, setIsTranslating2] = useState(false);
-
-    
-    
     const containerMargin = screenHeight * 0.1; //8% of screen height
 
-    const [translatingNumber, setTranslatingNumber] = useState(0); // 0 - Eng, 1 - Spa
-
-    const handleRestart = () => {
-        Alert.alert('Restart Button is pressed')
+    const translate = () => {
+        console.log('Translate Button is pressed');
     }
 
-    const handlePressLang1 = () => {
-        setIsTranslating2(false);
-        setIsTranslating1(prevIsTranslating1 => {
-            const newIsTranslating1 = !prevIsTranslating1;
-            if (newIsTranslating1) {
-                setTranslatingNumber(0);
-                //rtRecording();
-                //setText1('')
-            } else {
-                setTranslatingNumber(1);
-                // stopRecording();
-                // playRecording();
-
-            }
-            return newIsTranslating1;
-        });
-    };
 
     return (
         <View style={mainStyle.mainContainer}>
             <StatusBar barStyle="light-content" />
             <View style={[mainStyle.langContainer, { marginBottom: containerMargin }]}>
-                <HighlightingBox isTranslating={isTranslating1} />
+                {/* <HighlightingBox isTranslating={isTranslating1} /> */}
                 <SafeAreaView style={{ flex: 1 }}>
-                    <AudioRecorder />
+                    <AudioRecorderRaw />
+                    <View style={[mainStyle.ButtonContainer]}>
+                        <TouchableOpacity
+                            style={audioRecorderStyles.btn}
+                            onPress={translate}
+                        >
+                            <Text>Translate</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <AudioRecorderTranslated />
                 </SafeAreaView>
-                <View style={[mainStyle.ButtonContainer]}>
-                    <TouchableOpacity
-                        onPress={handleRestart}
-                        style={mainStyle.button}
-                        >
-                        <Text>Restart</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        onPress={handleRestart}
-                        style={mainStyle.button}
-                        >
-                        <Text>Transelate</Text>
-                    </TouchableOpacity>
-                </View>
             </View>
         </View>
     );
@@ -76,7 +48,7 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
 //Styles of Homepage
 const mainStyle = StyleSheet.create({
     mainContainer: {
-        backgroundColor: '#0B2447',
+        backgroundColor: '#153448',
         alignItems: 'center',
         justifyContent: 'center',
         flex: 1

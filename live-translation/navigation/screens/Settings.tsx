@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#393053', //'#152f8d'
+        backgroundColor: '#153448', //'#152f8d'
     },
 
     //implemented for KeyboardAvoidingView
