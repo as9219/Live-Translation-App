@@ -161,12 +161,12 @@ import AudioRecorderPlayer, {
         // (this.state.currentPositionSec / this.state.currentDurationSec);
   
       if (!playWidth) {
-        playWidth = 0;
+        playWidth = 10;
       }
   
       return (
         <SafeAreaView style={audioRecorderStyles .container}>
-          <Text style={audioRecorderStyles .titleTxt}>Translated Audio</Text>
+          <Text style={[audioRecorderStyles.titleTxt, { marginTop : 10 }]}>Translated Audio</Text>
           <View style={audioRecorderStyles.viewPlayer}>
             <TouchableOpacity
               style={audioRecorderStyles.viewBarWrapper}

@@ -9,6 +9,8 @@ import AudioRecorderRaw from '../misc/AudioRecorderRaw.tsx';
 import AudioRecorderTranslated from '../misc/AudioRecorderTranslated.tsx';
 import { audioRecorderStyles } from '../misc/AudioRecorderRaw.tsx';
 
+import { Client } from "@gradio/client"; //import is faulty
+
 type HomeScreenNavigationProp = BottomTabNavigationProp<RootTabParameterList, "Home">;
 const screenHeight = Dimensions.get('window').height;
 const screenWidth = Dimensions.get('window').width;
@@ -17,8 +19,25 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
 
     const containerMargin = screenHeight * 0.1; //8% of screen height
 
-    const translate = () => {
+    // does not work
+    const translate = async () => {
+        //process: 
+        // 1) send raw.m4a from filepath to API server (depending on platform)
+        // 2) recieve from API server (depending on platform place .wav file in correct dir)
+        // 3) play translated.wav
+        // maybe we can implement the pause feature??
         console.log('Translate Button is pressed');
+        // const response_0 = await fetch("https://github.com/gradio-app/gradio/raw/main/test/test_files/audio_sample.wav");
+        // const exampleAudio = await response_0.blob();
+                                
+        // const app = await Client.connect("https://facebook-seamless-m4t-v2-large.hf.space/--replicas/loi3j/");
+        // const result = await app.predict("/s2st", [
+        //                 exampleAudio, 	// blob in 'Input speech' Audio component		
+        //                 'Afrikaans', // string  in 'Source language' Dropdown component		
+        //                 'Hindi', // string  in 'Target language' Dropdown component
+        //     ]);
+
+        //     console.log(result);
     }
 
 
@@ -31,10 +50,10 @@ export default function HomeScreen({ navigation } : {navigation : HomeScreenNavi
                     <AudioRecorderRaw />
                     <View style={[mainStyle.ButtonContainer]}>
                         <TouchableOpacity
-                            style={audioRecorderStyles.btn}
+                            style={[audioRecorderStyles.btn, { width: screenWidth * 0.6 }]}
                             onPress={translate}
                         >
-                            <Text>Translate</Text>
+                            <Text style={{alignSelf:'center'}}>Translate</Text>
                         </TouchableOpacity>
                     </View>
                     <AudioRecorderTranslated />

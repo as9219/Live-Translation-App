@@ -167,7 +167,7 @@ import AudioRecorderPlayer, {
   
       return (
         <SafeAreaView style={audioRecorderStyles .container}>
-          <Text style={audioRecorderStyles .titleTxt}>Raw Language</Text>
+          <Text style={[audioRecorderStyles.titleTxt, { marginTop : 10 }]}>English Language</Text>
           <Text style={audioRecorderStyles .txtRecordCounter}>Length: {this.state.recordTime}</Text>
           <View style={audioRecorderStyles .viewRecorder}>
             <View style={audioRecorderStyles .recordBtnWrapper}>
